@@ -1,0 +1,41 @@
+.container-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.102);
+    padding: 21px 40px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 99;
+    background-color: rgb(10, 30, 94, 1)
+}
+.header-row{
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-col-3{
+    text-align: right;
+}
+.header-menu{
+    text-decoration: none;
+    color: white;
+}
+.header-menu:hover{
+    text-decoration: underline;
+}
+.join-btn {
+    background-image: -webkit-linear-gradient(169deg, #5560ff 17%, #aa52a1 63%, #ff4343 100%);
+    -webkit-transition: all ease 0.3s;
+    transition: all ease 0.3s;
+    border-radius: 15px!important;
+    width: auto;
+    padding: 0 50px!important;
+    min-height: 50px;
+    text-transform: uppercase;
+    font-size: 20px!important;
+    font-weight: 700!important;
+    border: 0!important;
+    color: #fff;
+}

@@ -1,0 +1,126 @@
+
+.section-row {
+    display: flex;
+    justify-content: center;
+}
+.main-title {
+    font-size: 80px;
+    line-height: 1.1;
+    text-transform: uppercase;
+    margin-top: 200px;
+    font-weight: 700;
+    color: #ffffff;
+    font-family: "Open Sans", sans-serif;
+    text-align: center;
+}
+
+.section-subtitle {
+    font-size: 30px;
+    line-height: 1.4;
+    color: #ffffff;
+    text-align: center;
+}
+
+
+.container-ticket{
+    margin-top: 150px;
+    display: flex;
+    justify-content: center;
+}
+.ticket-row{
+    width: 80%;
+    background: url('../../assets/images/ticket-bg.jpg');
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.ticket-col{
+    background-color: rgb(0,0,0,0.25);
+    padding: 35px;
+}
+.ticket-title{
+    color: #31d7a9;
+    font-weight: 600;
+    margin-bottom: 16px;
+    padding-left: 25px;
+    font-size: 18px;
+    text-transform: uppercase;
+    margin-top: -5px;
+}
+.ticket-subtitle{
+    color: #ffffff;
+    font-weight: 700;
+    margin-bottom: 16px;
+    padding-left: 25px;
+    font-size: 28px;
+    text-transform: uppercase;
+    margin-top: -5px;
+}
+.ticket-col-form{
+    display: flex;
+    justify-content: center;
+}
+.ticket-form-row{
+    background-color: rgb(0, 0, 0, 0.5);
+    width: 95%;
+    border-radius: 5px;
+    padding: 50px;
+}
+.form-control::placeholder{
+    color: #1a644f!important;
+}
+.form-select{
+    background-color: rgb(0, 0, 0, 0.3)!important;
+    color:whitesmoke!important;
+    border: none!important;
+    min-width: 200px!important;
+    width: fit-content!important;
+}
+.select-options{
+    background-color: #000;
+    color: #fff;
+}
+.form-col{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.label{
+    color: #31d7a9;
+}
+
+.container-bottom{
+    padding: 150px 0;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 90px;
+    row-gap: 90px;
+}
+.movie{
+    background-color: #032055;
+    width: 255px;
+    height: 500px;
+}
+.movie-title{
+    padding: 23px 15px;
+    border-bottom: 1px dashed #11326f;
+    height: 100px;
+}
+.movie-title-heading{
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+    text-transform: capitalize;
+}
+.movie-title-heading:hover{
+    color: #31d7a9;
+}
+.movie-row{
+    display: flex;
+    align-items: center;
+}
+.movie-col{
+    color: #fff;
+    text-align: center;
+}

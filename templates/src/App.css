@@ -1,0 +1,21 @@
+body{
+  background-color: #001232!important;
+}
+.container-fluid{
+  height: 100vh;
+
+}
+.account-bg {
+  background: url(./assets/images/account-bg.jpg);
+  width: 100%;
+}
+.home-bg{
+  background: url(./assets//images/banner_home.jpg);
+  background-repeat: no-repeat;
+  background-color: #001232;
+  margin-top: 90px!important;
+  padding: 0!important;
+}
+.row{
+  --bs-gutter-x: 0!important;
+}

@@ -1,0 +1,127 @@
+.container-seat {
+    margin: 120px 0 0 0;
+}
+
+.seat-header {
+    background-color: #032055;
+    height: 120px;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-button{
+        background-image: -webkit-linear-gradient(169deg, #5560ff 17%, #aa52a1 63%, #ff4343 100%);
+        -webkit-transition: all ease 0.3s;
+        transition: all ease 0.3s;
+        border-radius: 2px !important;
+        width: auto;
+        padding: 0 20px !important;
+        min-height: 50px;
+        text-transform: uppercase;
+        font-size: 20px !important;
+        font-weight: 700 !important;
+        border: 0 !important;
+        color: #fff;
+}
+
+.container-fluid {
+    --bs-gutter-x: 0 !important;
+}
+
+.seat-screen{
+    margin-top: 50px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.seat-screen>h2{
+    font-size: 28px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.screen-img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25px;
+}
+.silver-plus{
+    color: #31d6a9;
+}
+
+.seat-chairs{
+    margin-top: 30px;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.chairs{
+    position: relative;
+    width: fit-content;
+    margin: 0 40px;
+    display: flex;
+}
+.chairs>div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.chairs>div>img{
+    margin: 0 10px;
+    height: 45px;
+    width: 45px;
+    cursor: pointer;
+}
+.chairs>div>small{
+    position: absolute;
+}
+.seat-total-count{
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 145px;
+}
+.seat-total {
+    position: relative;
+    height: 145px;
+    width: 1310px;
+    overflow: hidden; /* Ensures that pseudo-element stays within bounds */
+    color: #fff;
+    padding: 40px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.seat-total::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(../../assets/images/movie-bg-proceed.jpg);
+    background-size: cover; /* Adjust this based on how you want the image to fit */
+    background-position: center; /* Center the image if necessary */
+    opacity: 0.25; /* Adjust the opacity as needed */
+    z-index: -1; /* Place the pseudo-element behind the content */
+}
+.seat-total-row-div{
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.seat-total-row-div>h1{
+    color: #31d6a9;
+}
+.btn-proceed{
+    border-radius: 25px!important;
+}
+

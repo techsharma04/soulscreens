@@ -1,0 +1,67 @@
+.movie-details-row {
+    margin-top: 350px;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+}
+
+.top-row {
+    height: 175px;
+    color: #fff;
+    padding-left: 500px;
+}
+
+.top-row>p {
+    color: #7c8bba;
+    text-transform: uppercase;
+}
+
+.top-row>span {
+    border: 1px solid #233d6d;
+    padding: 10px 20px;
+    border-radius: 25px;
+    margin-right: 20px;
+    color: #7c8bba;
+}
+
+.bottom-row {
+    background-color: #032055;
+    height: 175px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 20px;
+}
+
+.book-btn {
+    background-image: -webkit-linear-gradient(169deg, #5560ff 17%, #aa52a1 63%, #ff4343 100%);
+    -webkit-transition: all ease 0.3s;
+    transition: all ease 0.3s;
+    border-radius: 25px !important;
+    width: auto;
+    padding: 0 50px !important;
+    min-height: 50px;
+    text-transform: uppercase;
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    border: 0 !important;
+    color: #fff;
+}
+
+.datetime-row {
+    margin-top: 20px;
+    display: flex;
+    width: 250px;
+    justify-content: space-between;
+    color: #7c8bba;
+}
+
+.datetime-col {
+    display: flex;
+    justify-content: space-between;
+    column-gap: 10px;
+}
+
+.btn-close {
+    --bs-btn-close-bg: url(data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27 fill=%27%23fff%27%3e%3cpath d=%27M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z%27/%3e%3c/svg%3e)!important;
+}
