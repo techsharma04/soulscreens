@@ -16,7 +16,12 @@
 }
 
 .header-col-3{
-    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.header-col-3>h4{
+    margin-right: 35px;
 }
 .header-menu{
     text-decoration: none;
@@ -38,4 +43,5 @@
     font-weight: 700!important;
     border: 0!important;
     color: #fff;
+    
 }

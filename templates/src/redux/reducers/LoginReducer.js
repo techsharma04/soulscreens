@@ -7,7 +7,9 @@ import {
 const initialState = {
     loading: false,
     message: '',
-    error: ''
+    error: '',
+    user: '',
+    csrfToken: ''
 };
 
 const loginReducer = (state = initialState, action) => {
@@ -15,7 +17,7 @@ const loginReducer = (state = initialState, action) => {
         case LOGIN_REQUEST:
             return { ...state, loading: true, error: '' };
         case LOGIN_SUCCESS:
-            return { ...state, loading: false, message: action.payload };
+            return { ...state, loading: false, message: action.payload.message, user: action.payload.user, csrfToken: action.payload.csrfToken };
         case LOGIN_FAILURE:
             return { ...state, loading: false, error: action.payload };
         default:

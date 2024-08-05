@@ -2,21 +2,22 @@ import './style.css';
 import logo from "../../assets/images/logo.png";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from 'react';
+import { loginSuccess } from '../../redux/action/LoginAction';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 export const Header = () => {
-
+    const dispatch = useDispatch();
     const [token, setToken] = useState(null);
+    const { csrfToken, user } = useSelector((state) => state.login);
 
     useEffect(() => {
-        // Simulate fetching token from localStorage or an API
-        const storedToken = localStorage.getItem('token'); // Adjust according to your storage method
-        setToken(storedToken);
+        setToken(csrfToken);
     }, []);
-
+    
     const handleLogout = () => {
         // Remove token and perform other logout logic
-        localStorage.removeItem('token');
+        dispatch(loginSuccess('', '', ''));
         setToken(null);
     };
     return (
@@ -25,12 +26,15 @@ export const Header = () => {
                 <div className="col-2 header-col-1">
                     <img src={logo} alt='' />
                 </div>
-                <div className="col-8 header-col-2">
-                    <Link className='header-menu'><h4>Home</h4></Link>
+                <div className="col-2 header-col-2">
+                    <Link to='/' className='header-menu'><h4>Home</h4></Link>
                 </div>
-                <div className="col-2 header-col-3">
+                <div className="col-8 header-col-3">
                     {token ? (
-                        <button className='join-btn' onClick={handleLogout}>Logout</button>
+                        <>
+                            <h4>Hello, {user.name}</h4>
+                            <button className='join-btn' onClick={handleLogout}>Logout</button>
+                        </>
                     ) : (
                         <Link to='/signup'>
                             <button className='join-btn'>Join Us</button>

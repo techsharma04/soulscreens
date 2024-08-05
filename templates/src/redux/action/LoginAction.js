@@ -8,9 +8,9 @@ export const loginRequest = () => ({
     type: LOGIN_REQUEST
 });
 
-export const loginSuccess = (message) => ({
+export const loginSuccess = (message, user, csrfToken) => ({
     type: LOGIN_SUCCESS,
-    payload: message
+    payload: {message, user, csrfToken}
 });
 
 export const loginFailure = (error) => ({
@@ -25,10 +25,11 @@ const getCsrfToken = () => {
 };
 
 // Set CSRF token in Axios default headers
-axios.defaults.headers.common['X-CSRFToken'] = getCsrfToken();
+axios.defaults.headers.common['X-CSRFToken'] = getCsrfToken(); 
 
 export const login = (formData) => async (dispatch) => {
     dispatch(loginRequest());
+    
     try {
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         const response = await axios.post('login/', formData, {
@@ -36,8 +37,9 @@ export const login = (formData) => async (dispatch) => {
                 'X-CSRFToken': csrfToken
             }
         });
-        localStorage.setItem('token', csrfToken);
-        dispatch(loginSuccess(response.data.message));
+        
+        const { message, user } = response.data;
+        dispatch(loginSuccess(response.data.message, response.data.user, csrfToken));
     } catch (error) {
         dispatch(loginFailure(error.response.data.error || 'An error occurred'));
     }

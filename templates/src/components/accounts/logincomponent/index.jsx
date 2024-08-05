@@ -3,16 +3,19 @@ import { useState, useEffect } from 'react';
 import { Button, Form, FormCheck, Alert } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../../../redux/action/LoginAction';
+import loaderImg from '../../../assets/images/loader.gif';
 
 export const LoginComponent = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { loading, message, error } = useSelector((state) => state.login);
+    const [loader, setLoader] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        setLoader(true);
         dispatch(login({ email, password }));
     };
 
@@ -23,11 +26,13 @@ export const LoginComponent = () => {
             timer = setTimeout(() => {
                 navigate('/');
             }, 2000);
+        } else if(error){
+            setLoader(false);
         }
 
         // Cleanup the timer if the component unmounts or if message changes
         return () => clearTimeout(timer);
-    }, [message, navigate]);
+    }, [message, error, navigate]);
 
     return (
         <div>
@@ -37,7 +42,7 @@ export const LoginComponent = () => {
                     <h1 style={{ fontWeight: 700, marginBottom: '30px' }}>WELCOME BACK</h1>
                 </div>
                 {error && (<Alert variant="danger" style={{ marginTop: '20px' }}>{error}</Alert>)}
-                {message && (<Alert variant="success" style={{ marginTop: '20px' }}>{message}</Alert>)}
+                {message && (<Alert variant="primary" style={{ marginTop: '20px' }}>{message}</Alert>)}
                 <Form.Label htmlFor="inputEmail">Email</Form.Label>
                 <Form.Control
                     type="email"
@@ -65,7 +70,9 @@ export const LoginComponent = () => {
                     <Link style={{ textDecoration: 'none', color: '#6d7bba' }}>Forgot Password</Link>
                 </div>
                 <div style={{ display: "flex", flexDirection: 'column', marginTop: '50px' }}>
-                    <Button size="lg" className="signup-btn" type="submit" disabled={loading}>LOG IN</Button>
+                    <Button size="lg" className="signup-btn" type="submit" disabled={loading}>
+                        {loader === true ? (<img src={loaderImg} alt="loader" style={{ height: '40px' }} />) : (<>LOG IN</>)}
+                    </Button>
                     <span style={{ textAlign: 'center', marginTop: '50px', fontSize: '20px' }}>
                         Don't have an account? <Link to='/signup' style={{ color: '#31d7a9' }}>Sign up now</Link>
                     </span>
@@ -74,3 +81,5 @@ export const LoginComponent = () => {
         </div>
     );
 };
+
+
