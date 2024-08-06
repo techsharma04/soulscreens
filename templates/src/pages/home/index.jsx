@@ -9,11 +9,34 @@ import city from '../../assets/images/city.png';
 import poster from '../../assets/images/movie12.jpg';
 import tomato from '../../assets/images/tomato.png';
 import cake from '../../assets/images/cake.png';
-
+import { fetchCities } from '../../redux/action/FetchCitiesAction';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 const Home = () => {
+    const dispatch = useDispatch();
+    const { cities } = useSelector(state => state.cities);
     const [dates, setDates] = useState([]);
+    console.log(cities);
+
+    useEffect(() => {
+        dispatch(fetchCities());
+    }, [dispatch]);
+
+    useEffect(() => {
+        generateNext4Dates();
+    }, [])
+
+    if (cities.loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (cities.error) {
+        return <div>Error: {cities.error}</div>;
+    }
+
+    ;
+
     const generateNext4Dates = () => {
         const today = new Date();
         const next4Dates = [];
@@ -25,10 +48,9 @@ const Home = () => {
         setDates(next4Dates);
     };
 
-    // Call the function to generate dates when the component mounts
-    useEffect(() => {
-        generateNext4Dates();
-    }, []);
+
+
+
     return (
         <div className='container-fluid home-bg'>
             <Header />
@@ -58,7 +80,7 @@ const Home = () => {
 
                             </div>
                             <div className='col form-col'>
-                                <img src={city} alt='city'/>
+                                <img src={city} alt='city' />
                                 <span className='label'>City</span>
                                 <Form.Select aria-label="select cities">
                                     <option className='select-options'>Select a City</option>
@@ -69,7 +91,7 @@ const Home = () => {
                                 </Form.Select>
                             </div>
                             <div className='col form-col'>
-                                <img src={date} alt='date'/>
+                                <img src={date} alt='date' />
                                 <span className='label'>Date</span>
                                 <Form.Select aria-label="select dates">
                                     <option className='select-options' >Select date</option>
@@ -79,7 +101,7 @@ const Home = () => {
                                 </Form.Select>
                             </div>
                             <div className='col form-col custom-select'>
-                                <img src={cinema} alt='cinema'/>
+                                <img src={cinema} alt='cinema' />
                                 <span className='label'>Cinema</span>
                                 <Form.Select aria-label="Default select example">
                                     <option className='select-options' >Select a cinema</option>
@@ -102,9 +124,9 @@ const Home = () => {
                         <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
                     </div>
                     <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato'/> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake'/> 90%</div>
-                        
+                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
+                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
+
                     </div>
                 </div>
 
@@ -114,9 +136,9 @@ const Home = () => {
                         <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
                     </div>
                     <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato'/> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake'/> 90%</div>
-                        
+                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
+                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
+
                     </div>
                 </div>
 
@@ -126,9 +148,9 @@ const Home = () => {
                         <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
                     </div>
                     <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato'/> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake'/> 90%</div>
-                        
+                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
+                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
+
                     </div>
                 </div>
 
@@ -138,9 +160,9 @@ const Home = () => {
                         <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
                     </div>
                     <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato'/> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake'/> 90%</div>
-                        
+                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
+                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
+
                     </div>
                 </div>
 
@@ -150,9 +172,9 @@ const Home = () => {
                         <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
                     </div>
                     <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato'/> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake'/> 90%</div>
-                        
+                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
+                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
+
                     </div>
                 </div>
 
@@ -162,9 +184,9 @@ const Home = () => {
                         <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
                     </div>
                     <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato'/> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake'/> 90%</div>
-                        
+                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
+                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
+
                     </div>
                 </div>
 
@@ -174,9 +196,9 @@ const Home = () => {
                         <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
                     </div>
                     <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato'/> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake'/> 90%</div>
-                        
+                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
+                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
+
                     </div>
                 </div>
 
@@ -186,9 +208,9 @@ const Home = () => {
                         <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
                     </div>
                     <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato'/> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake'/> 90%</div>
-                        
+                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
+                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
+
                     </div>
                 </div>
 
@@ -198,9 +220,9 @@ const Home = () => {
                         <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
                     </div>
                     <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato'/> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake'/> 90%</div>
-                        
+                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
+                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
+
                     </div>
                 </div>
 
@@ -210,9 +232,9 @@ const Home = () => {
                         <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
                     </div>
                     <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato'/> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake'/> 90%</div>
-                        
+                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
+                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
+
                     </div>
                 </div>
 
@@ -222,9 +244,9 @@ const Home = () => {
                         <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
                     </div>
                     <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato'/> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake'/> 90%</div>
-                        
+                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
+                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
+
                     </div>
                 </div>
 
@@ -234,9 +256,9 @@ const Home = () => {
                         <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
                     </div>
                     <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato'/> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake'/> 90%</div>
-                        
+                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
+                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
+
                     </div>
                 </div>
 
@@ -246,9 +268,9 @@ const Home = () => {
                         <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
                     </div>
                     <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato'/> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake'/> 90%</div>
-                        
+                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
+                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
+
                     </div>
                 </div>
 
@@ -258,9 +280,9 @@ const Home = () => {
                         <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
                     </div>
                     <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato'/> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake'/> 90%</div>
-                        
+                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
+                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
+
                     </div>
                 </div>
 
@@ -270,9 +292,9 @@ const Home = () => {
                         <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
                     </div>
                     <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato'/> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake'/> 90%</div>
-                        
+                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
+                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
+
                     </div>
                 </div>
 
@@ -282,9 +304,9 @@ const Home = () => {
                         <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
                     </div>
                     <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato'/> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake'/> 90%</div>
-                        
+                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
+                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
+
                     </div>
                 </div>
 
@@ -294,9 +316,9 @@ const Home = () => {
                         <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
                     </div>
                     <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato'/> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake'/> 90%</div>
-                        
+                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
+                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
+
                     </div>
                 </div>
 
@@ -306,9 +328,9 @@ const Home = () => {
                         <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
                     </div>
                     <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato'/> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake'/> 90%</div>
-                        
+                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
+                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
+
                     </div>
                 </div>
 
@@ -318,9 +340,9 @@ const Home = () => {
                         <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
                     </div>
                     <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato'/> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake'/> 90%</div>
-                        
+                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
+                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
+
                     </div>
                 </div>
 
@@ -330,9 +352,9 @@ const Home = () => {
                         <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
                     </div>
                     <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato'/> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake'/> 90%</div>
-                        
+                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
+                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
+
                     </div>
                 </div>
 
@@ -342,9 +364,9 @@ const Home = () => {
                         <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
                     </div>
                     <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato'/> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake'/> 90%</div>
-                        
+                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
+                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
+
                     </div>
                 </div>
 
@@ -354,9 +376,9 @@ const Home = () => {
                         <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
                     </div>
                     <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato'/> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake'/> 90%</div>
-                        
+                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
+                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
+
                     </div>
                 </div>
 
@@ -366,9 +388,9 @@ const Home = () => {
                         <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
                     </div>
                     <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato'/> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake'/> 90%</div>
-                        
+                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
+                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
+
                     </div>
                 </div>
 
@@ -378,9 +400,9 @@ const Home = () => {
                         <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
                     </div>
                     <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato'/> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake'/> 90%</div>
-                        
+                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
+                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
+
                     </div>
                 </div>
 
@@ -390,9 +412,9 @@ const Home = () => {
                         <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
                     </div>
                     <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato'/> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake'/> 90%</div>
-                        
+                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
+                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
+
                     </div>
                 </div>
 
@@ -402,9 +424,9 @@ const Home = () => {
                         <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
                     </div>
                     <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato'/> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake'/> 90%</div>
-                        
+                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
+                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
+
                     </div>
                 </div>
 
@@ -414,9 +436,9 @@ const Home = () => {
                         <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
                     </div>
                     <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato'/> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake'/> 90%</div>
-                        
+                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
+                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
+
                     </div>
                 </div>
 
@@ -426,9 +448,9 @@ const Home = () => {
                         <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
                     </div>
                     <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato'/> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake'/> 90%</div>
-                        
+                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
+                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
+
                     </div>
                 </div>
 
@@ -438,9 +460,9 @@ const Home = () => {
                         <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
                     </div>
                     <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato'/> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake'/> 90%</div>
-                        
+                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
+                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
+
                     </div>
                 </div>
 
@@ -450,15 +472,15 @@ const Home = () => {
                         <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
                     </div>
                     <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato'/> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake'/> 90%</div>
-                        
+                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
+                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
+
                     </div>
                 </div>
 
-                
 
-               
+
+
 
             </div>
         </div>

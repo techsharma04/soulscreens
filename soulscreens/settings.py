@@ -85,6 +85,18 @@ WSGI_APPLICATION = 'soulscreens.wsgi.application'
 #     }
 # }
 
+DATABASES = {
+        'default': {
+            'ENGINE': 'djongo',
+            'NAME': 'movie_ticket_booking',
+            'ENFORCE_SCHEMA': False,
+            'CLIENT': {
+                'host': 'mongodb+srv://techshar:Alliswell1@cinema.ysuxqk8.mongodb.net/?retryWrites=true&w=majority&appName=Cinema'
+            }  
+        }
+}
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

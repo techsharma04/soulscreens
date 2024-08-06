@@ -38,7 +38,7 @@ export const login = (formData) => async (dispatch) => {
             }
         });
         
-        const { message, user } = response.data;
+        
         dispatch(loginSuccess(response.data.message, response.data.user, csrfToken));
     } catch (error) {
         dispatch(loginFailure(error.response.data.error || 'An error occurred'));
