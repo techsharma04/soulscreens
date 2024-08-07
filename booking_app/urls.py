@@ -1,3 +1,5 @@
+# urls.py
+
 from django.urls import path
 from . import views
 
@@ -5,7 +7,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('signup/', views.signup, name='signup'),
     path('login/', views.login, name='login'),
-    path('cities/', views.get_cities, name='cities'),
+    path('cities/', views.get_cities, name='get_cities'),
     # path('users/', views.UserCreateView.as_view(), name='user-create'),
     # path('users/<int:pk>/', views.UserDetailView.as_view(), name='user-detail'),
     # path('movies/',views. MovieListView.as_view(), name='movie-list'),

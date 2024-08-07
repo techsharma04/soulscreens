@@ -23,8 +23,7 @@ export const fetchCities = () => {
     dispatch(fetchCitiesRequest());
     axios.get('cities/')
       .then(response => {
-        const cities = response.data;
-        dispatch(fetchCitiesSuccess(cities));
+        dispatch(fetchCitiesSuccess(response.data));
       })
       .catch(error => {
         dispatch(fetchCitiesFailure(error.message));

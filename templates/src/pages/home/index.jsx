@@ -15,9 +15,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const Home = () => {
     const dispatch = useDispatch();
-    const { cities } = useSelector(state => state.cities);
+    const {loading, cities, error} = useSelector(state => state.cities);
     const [dates, setDates] = useState([]);
-    console.log(cities);
+    
 
     useEffect(() => {
         dispatch(fetchCities());
@@ -84,10 +84,9 @@ const Home = () => {
                                 <span className='label'>City</span>
                                 <Form.Select aria-label="select cities">
                                     <option className='select-options'>Select a City</option>
-                                    <option className='select-options'>Brampton</option>
-                                    <option className='select-options'>Mississauga</option>
-                                    <option className='select-options'>Oakville</option>
-                                    <option className='select-options'>Toronto</option>
+                                {cities.map((city)=>(
+                                    <option key={city.id} className='select-options'>{city.city_name}</option>
+                                ))}    
                                 </Form.Select>
                             </div>
                             <div className='col form-col'>
