@@ -3,39 +3,41 @@ import './style.css';
 import Form from 'react-bootstrap/Form';
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
-import cinema from '../../assets/images/cinema.png';
-import date from '../../assets/images/date.png';
-import city from '../../assets/images/city.png';
+// import cinema from '../../assets/images/cinema.png';
+// import date from '../../assets/images/date.png';
+// import city from '../../assets/images/city.png';
 import poster from '../../assets/images/movie12.jpg';
-import tomato from '../../assets/images/tomato.png';
+import star from '../../assets/images/star.png';
 import cake from '../../assets/images/cake.png';
 import { fetchCities } from '../../redux/action/FetchCitiesAction';
+import { fetchMovies } from '../../redux/action/FetchMoviesAction';
+import { fetchRating } from '../../redux/action/FetchRatingAction';
 import { useDispatch, useSelector } from 'react-redux';
 
 
 const Home = () => {
     const dispatch = useDispatch();
-    const {loading, cities, error} = useSelector(state => state.cities);
+    const { cities } = useSelector(state => state.cities);
+    const { rating } = useSelector(state => state.rating);
+    const { movies } = useSelector(state => state.movies);
     const [dates, setDates] = useState([]);
-    
+    const [filter, setFilter] = useState('filter-display-hide');
+
+     useEffect(() => {
+        dispatch(fetchCities());
+    }, [dispatch]);
 
     useEffect(() => {
-        dispatch(fetchCities());
+        dispatch(fetchMovies());
+    }, [dispatch]);
+    
+    useEffect(() => {
+        dispatch(fetchRating());
     }, [dispatch]);
 
     useEffect(() => {
         generateNext4Dates();
     }, [])
-
-    if (cities.loading) {
-        return <div>Loading...</div>;
-    }
-
-    if (cities.error) {
-        return <div>Error: {cities.error}</div>;
-    }
-
-    ;
 
     const generateNext4Dates = () => {
         const today = new Date();
@@ -48,6 +50,9 @@ const Home = () => {
         setDates(next4Dates);
     };
 
+    const toggleFilter = () => {
+        setFilter(prevFilter => (prevFilter === '' ? 'filter-display-hide' : ''));
+    };
 
 
 
@@ -70,27 +75,31 @@ const Home = () => {
                     </div>
                     <div className='col ticket-col ticket-col-form'>
                         <div className='row ticket-form-row'>
-                            <div className='col'>
+                            <div className='col textbox-col'>
                                 <Form.Control
                                     type="text"
                                     id="inputtext5"
                                     aria-describedby="textHelpBlock"
                                     placeholder='Search for movies'
                                 />
+                                <div className='filter' onClick={toggleFilter}>
 
+                                </div>
                             </div>
+                        </div>
+                        <div className={`row ticket-form-row ${filter}`}>
                             <div className='col form-col'>
-                                <img src={city} alt='city' />
+                                {/* <img src={city} alt='city' /> */}
                                 <span className='label'>City</span>
                                 <Form.Select aria-label="select cities">
                                     <option className='select-options'>Select a City</option>
-                                {cities.map((city)=>(
-                                    <option key={city.id} className='select-options'>{city.city_name}</option>
-                                ))}    
+                                    {cities.map((city) => (
+                                        <option key={city.id} className='select-options'>{city.name}</option>
+                                    ))}
                                 </Form.Select>
                             </div>
                             <div className='col form-col'>
-                                <img src={date} alt='date' />
+                                {/* <img src={date} alt='date' /> */}
                                 <span className='label'>Date</span>
                                 <Form.Select aria-label="select dates">
                                     <option className='select-options' >Select date</option>
@@ -100,387 +109,78 @@ const Home = () => {
                                 </Form.Select>
                             </div>
                             <div className='col form-col custom-select'>
-                                <img src={cinema} alt='cinema' />
+                                {/* <img src={cinema} alt='cinema' /> */}
                                 <span className='label'>Cinema</span>
                                 <Form.Select aria-label="Default select example">
                                     <option className='select-options' >Select a cinema</option>
-                                    <option className='select-options'>Cineplex</option>
-                                    <option className='select-options'>PVR</option>
-                                    <option className='select-options'>Red Carpet</option>
+                                    <option className='select-options'>Big Cinemas</option>
+                                    <option className='select-options'>Cinepolis</option>
+                                    <option className='select-options'>IMAX</option>
+                                    <option className='select-options'>PVR INOX</option>
+                                    <option className='select-options'>Paragon</option>
+                                    <option className='select-options'>New Empire Cinema</option>
+                                </Form.Select>
+                            </div>
+                        </div>
+                        <div className={`row ticket-form-row-2 ${filter}`}>
+                            <div className='col form-col custom-select'>
+                                {/* <img src={Genre} alt='cinema' /> */}
+                                <span className='label'>Genre</span>
+                                <Form.Select aria-label="Default select example">
+                                    <option className='select-options' >Select a Genre</option>
+                                    <option className='select-options'>Action</option>
+                                    <option className='select-options'>Comedy</option>
+                                    <option className='select-options'>Drama</option>
+                                    <option className='select-options'>Horror</option>
+                                    <option className='select-options'>Romance</option>
+                                    <option className='select-options'>Science Fiction</option>
+                                    <option className='select-options'>Thriller</option>
+                                    <option className='select-options'>Western</option>
                                 </Form.Select>
                             </div>
 
+                            <div className='col form-col custom-select'>
+                                {/* <img src={Language} alt='langauage' /> */}
+                                <span className='label'>Language</span>
+                                <Form.Select aria-label="Default select example">
+                                    <option className='select-options' >Select a Language</option>
+                                    <option className='select-options'>English</option>
+                                    <option className='select-options'>French</option>
+                                    <option className='select-options'>Hindi</option>
+                                    <option className='select-options'>Mandarin</option>
+                                    <option className='select-options'>Punjabi</option>
+                                    <option className='select-options'>Telugu</option>
+                                </Form.Select>
+                            </div>
 
+                            <div className='col form-col custom-select'>
+                                {/* <img src={Rating} alt='rating' /> */}
+                                <span className='label'>Rating</span>
+                                <Form.Select aria-label="Default select example">
+                                    <option className='select-options' >Select a Rating</option>
+                                    {rating.map((rating) => (
+                                        <option className='select-options' key={rating.id}>{rating.name}</option>
+                                    ))}
+                                </Form.Select>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div className='container container-bottom'>
-                <div className='movie'>
-                    <Link to='/movie-detail'><img src={poster} alt='poster' /></Link>
-                    <div className='movie-title'>
-                        <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
+                {movies.map((movie) => (
+                    <div className='movie' key={movie.id}>
+                        <Link to={`/movies/${movie.id}`}><img src={movie.image} alt='poster' width={255} height={357}/></Link>
+                        <div className='movie-title'>
+                            <Link to={`/movies/${movie.id}`} style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>{movie.title}</h5></Link>
+                        </div>
+                        <div className='movie-row'>
+                            <div className='col movie-col'><img src={star} alt='star' width={18} style={{marginRight:7}}/> {movie.star_rating.map((rating) => rating.star).join(', ')}</div>
+                            <div className='col movie-col'><img src={cake} alt='cake' style={{marginRight:7}}/> 90%</div>
+                        </div>
                     </div>
-                    <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
-
-                    </div>
-                </div>
-
-                <div className='movie'>
-                    <Link to='/movie-detail'><img src={poster} alt='poster' /></Link>
-                    <div className='movie-title'>
-                        <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
-                    </div>
-                    <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
-
-                    </div>
-                </div>
-
-                <div className='movie'>
-                    <Link to='/movie-detail'><img src={poster} alt='poster' /></Link>
-                    <div className='movie-title'>
-                        <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
-                    </div>
-                    <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
-
-                    </div>
-                </div>
-
-                <div className='movie'>
-                    <Link to='/movie-detail'><img src={poster} alt='poster' /></Link>
-                    <div className='movie-title'>
-                        <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
-                    </div>
-                    <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
-
-                    </div>
-                </div>
-
-                <div className='movie'>
-                    <Link to='/movie-detail'><img src={poster} alt='poster' /></Link>
-                    <div className='movie-title'>
-                        <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
-                    </div>
-                    <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
-
-                    </div>
-                </div>
-
-                <div className='movie'>
-                    <Link to='/movie-detail'><img src={poster} alt='poster' /></Link>
-                    <div className='movie-title'>
-                        <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
-                    </div>
-                    <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
-
-                    </div>
-                </div>
-
-                <div className='movie'>
-                    <Link to='/movie-detail'><img src={poster} alt='poster' /></Link>
-                    <div className='movie-title'>
-                        <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
-                    </div>
-                    <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
-
-                    </div>
-                </div>
-
-                <div className='movie'>
-                    <Link to='/movie-detail'><img src={poster} alt='poster' /></Link>
-                    <div className='movie-title'>
-                        <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
-                    </div>
-                    <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
-
-                    </div>
-                </div>
-
-                <div className='movie'>
-                    <Link to='/movie-detail'><img src={poster} alt='poster' /></Link>
-                    <div className='movie-title'>
-                        <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
-                    </div>
-                    <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
-
-                    </div>
-                </div>
-
-                <div className='movie'>
-                    <Link to='/movie-detail'><img src={poster} alt='poster' /></Link>
-                    <div className='movie-title'>
-                        <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
-                    </div>
-                    <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
-
-                    </div>
-                </div>
-
-                <div className='movie'>
-                    <Link to='/movie-detail'><img src={poster} alt='poster' /></Link>
-                    <div className='movie-title'>
-                        <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
-                    </div>
-                    <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
-
-                    </div>
-                </div>
-
-                <div className='movie'>
-                    <Link to='/movie-detail'><img src={poster} alt='poster' /></Link>
-                    <div className='movie-title'>
-                        <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
-                    </div>
-                    <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
-
-                    </div>
-                </div>
-
-                <div className='movie'>
-                    <Link to='/movie-detail'><img src={poster} alt='poster' /></Link>
-                    <div className='movie-title'>
-                        <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
-                    </div>
-                    <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
-
-                    </div>
-                </div>
-
-                <div className='movie'>
-                    <Link to='/movie-detail'><img src={poster} alt='poster' /></Link>
-                    <div className='movie-title'>
-                        <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
-                    </div>
-                    <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
-
-                    </div>
-                </div>
-
-                <div className='movie'>
-                    <Link to='/movie-detail'><img src={poster} alt='poster' /></Link>
-                    <div className='movie-title'>
-                        <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
-                    </div>
-                    <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
-
-                    </div>
-                </div>
-
-                <div className='movie'>
-                    <Link to='/movie-detail'><img src={poster} alt='poster' /></Link>
-                    <div className='movie-title'>
-                        <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
-                    </div>
-                    <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
-
-                    </div>
-                </div>
-
-                <div className='movie'>
-                    <Link to='/movie-detail'><img src={poster} alt='poster' /></Link>
-                    <div className='movie-title'>
-                        <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
-                    </div>
-                    <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
-
-                    </div>
-                </div>
-
-                <div className='movie'>
-                    <Link to='/movie-detail'><img src={poster} alt='poster' /></Link>
-                    <div className='movie-title'>
-                        <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
-                    </div>
-                    <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
-
-                    </div>
-                </div>
-
-                <div className='movie'>
-                    <Link to='/movie-detail'><img src={poster} alt='poster' /></Link>
-                    <div className='movie-title'>
-                        <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
-                    </div>
-                    <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
-
-                    </div>
-                </div>
-
-                <div className='movie'>
-                    <Link to='/movie-detail'><img src={poster} alt='poster' /></Link>
-                    <div className='movie-title'>
-                        <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
-                    </div>
-                    <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
-
-                    </div>
-                </div>
-
-                <div className='movie'>
-                    <Link to='/movie-detail'><img src={poster} alt='poster' /></Link>
-                    <div className='movie-title'>
-                        <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
-                    </div>
-                    <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
-
-                    </div>
-                </div>
-
-                <div className='movie'>
-                    <Link to='/movie-detail'><img src={poster} alt='poster' /></Link>
-                    <div className='movie-title'>
-                        <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
-                    </div>
-                    <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
-
-                    </div>
-                </div>
-
-                <div className='movie'>
-                    <Link to='/movie-detail'><img src={poster} alt='poster' /></Link>
-                    <div className='movie-title'>
-                        <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
-                    </div>
-                    <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
-
-                    </div>
-                </div>
-
-                <div className='movie'>
-                    <Link to='/movie-detail'><img src={poster} alt='poster' /></Link>
-                    <div className='movie-title'>
-                        <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
-                    </div>
-                    <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
-
-                    </div>
-                </div>
-
-                <div className='movie'>
-                    <Link to='/movie-detail'><img src={poster} alt='poster' /></Link>
-                    <div className='movie-title'>
-                        <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
-                    </div>
-                    <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
-
-                    </div>
-                </div>
-
-                <div className='movie'>
-                    <Link to='/movie-detail'><img src={poster} alt='poster' /></Link>
-                    <div className='movie-title'>
-                        <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
-                    </div>
-                    <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
-
-                    </div>
-                </div>
-
-                <div className='movie'>
-                    <Link to='/movie-detail'><img src={poster} alt='poster' /></Link>
-                    <div className='movie-title'>
-                        <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
-                    </div>
-                    <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
-
-                    </div>
-                </div>
-
-                <div className='movie'>
-                    <Link to='/movie-detail'><img src={poster} alt='poster' /></Link>
-                    <div className='movie-title'>
-                        <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
-                    </div>
-                    <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
-
-                    </div>
-                </div>
-
-                <div className='movie'>
-                    <Link to='/movie-detail'><img src={poster} alt='poster' /></Link>
-                    <div className='movie-title'>
-                        <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
-                    </div>
-                    <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
-
-                    </div>
-                </div>
-
-                <div className='movie'>
-                    <Link to='/movie-detail'><img src={poster} alt='poster' /></Link>
-                    <div className='movie-title'>
-                        <Link to='movie-detail' style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>The most wanted</h5></Link>
-                    </div>
-                    <div className='movie-row'>
-                        <div className='col movie-col'><img src={tomato} alt='tomato' /> 9.3</div>
-                        <div className='col movie-col'><img src={cake} alt='cake' /> 90%</div>
-
-                    </div>
-                </div>
-
-
-
-
-
+                ))}
             </div>
         </div>
     );

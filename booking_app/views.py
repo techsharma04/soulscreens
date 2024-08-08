@@ -1,14 +1,14 @@
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.utils.decorators import method_decorator
 from django.views import View
 import json
-from .models import User, City
+from .models import User, City, Movie, Rating
 from rest_framework import generics, permissions
 from rest_framework.renderers import JSONRenderer
-from .serializers import UserSerializer, CitySerializer
+from .serializers import UserSerializer, CitySerializer, MovieSerializer, RatingSerializer
 
 @csrf_exempt
 @require_POST
@@ -61,6 +61,24 @@ def get_cities(request):
     cities = City.objects.all()
     city_serializer = CitySerializer(cities, many=True)
     return JsonResponse(city_serializer.data, safe=False)
+
+
+def get_movies(request):
+    movies = Movie.objects.all()
+    movie_serializer = MovieSerializer(movies, many=True)
+    return JsonResponse(movie_serializer.data, safe=False)
+
+def get_movie_details(request, id):
+    movie = Movie.objects.get(id = id)
+    movie_serializer = MovieSerializer(movie)
+    return JsonResponse(movie_serializer.data, safe=False)
+
+
+def get_rating(request):
+    rating = Rating.objects.all()
+    rating_serializer = RatingSerializer(rating, many=True)
+    return JsonResponse(rating_serializer.data, safe=False)
+
 
 
         

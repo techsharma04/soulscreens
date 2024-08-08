@@ -1,5 +1,6 @@
 from djongo import models
 
+
 class User(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
@@ -9,28 +10,53 @@ class User(models.Model):
     def __str__(self):
         return self.name
 
+
 class City(models.Model):
     id = models.AutoField(primary_key=True)
-    city_name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.city_name
+        return self.name
+
 
 class Movie(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=200)
-    director = models.CharField(max_length=200)
-    starring_actors = models.ManyToManyField('Actor', related_name='movies')
-    runtime = models.PositiveIntegerField() 
-    genre = models.CharField(max_length=100)
-    language = models.CharField(max_length=100)
-    rating = models.FloatField() 
+    movie_genre = models.ManyToManyField("Genre", related_name="movies")
+    movie_language = models.ManyToManyField("Language", related_name="movies")
+    movie_rating = models.ManyToManyField("Rating", related_name="movies")
+    image = models.CharField(max_length=100)
+    star_rating = models.ManyToManyField("StarRating", related_name="movies")
+    release_date = models.DateField(default='2000-01-01') 
+    time_length = models.CharField(max_length=100, default='2 hrs 50 mins')
+    visibility_status = models.CharField(max_length=100)
 
     def __str__(self):
         return self.title
-    
-class Actor(models.Model):
+
+
+class Language(models.Model):
     name = models.CharField(max_length=200)
 
     def __str__(self):
         return self.name
+
+
+class Genre(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
+
+
+class Rating(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
+
+class StarRating(models.Model):
+    star = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.star
