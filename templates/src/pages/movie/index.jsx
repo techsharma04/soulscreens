@@ -20,7 +20,7 @@ const Movie = () => {
             <Header />
             <div className="movie-banner">
                 <div className="movie-details">
-                <h1 style={{position: 'fixed', fontSize: '150px', top:100, right:100}}>{movie.title}</h1>
+                <h1 style={{position: 'fixed', fontSize: '150px', top:100, right:100, fontFamily: 'fantasy', textTransform:'uppercase'}}>{movie.title}</h1>
                     <div className="movie-details-row">
                         <img src={movie.image} alt="" height={396} width={275} style={{ position: 'absolute', left: '300px', top: 300, padding: 5, border: '15px groove black' }} />
                         <div className="top-row">
