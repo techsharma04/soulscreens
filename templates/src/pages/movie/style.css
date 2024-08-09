@@ -1,14 +1,39 @@
+.movie-details {
+    position: absolute;
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: contain;
+    height: 100%;
+    width: 100%;
+}
+
 .movie-details-row {
-    margin-top: 350px;
-    height: 350px;
+    background: rgb(0, 0, 0);
+    background: linear-gradient(180deg, rgba(1, 18, 48, 1) 0%, rgba(1, 18, 48, .5) 30%, rgba(1, 18, 48, .5) 50%, rgba(0, 0, 0, 1) 70%, rgba(0, 0, 0, 1) 100%);
+    /* padding-top: 350px; */
+    height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
 }
 
 .top-row {
-    height: 175px;
+    height: 100%;
     color: #fff;
-    padding-left: 500px;
+    padding: 0 0 10px 650px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-around;
+}
+
+.top-inside-row {
+    height: 400px;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-around;
 }
 
 .top-row>p {
@@ -16,21 +41,13 @@
     text-transform: uppercase;
 }
 
-.top-row>span {
+.top-row>div>span {
     border: 1px solid #233d6d;
     padding: 10px 20px;
     border-radius: 25px;
-    margin-right: 20px;
+    margin: 0 20px 0 0;
     color: #7c8bba;
-}
-
-.bottom-row {
-    background-color: #032055;
-    height: 175px;
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding-right: 20px;
 }
 
 .book-btn {
@@ -63,5 +80,5 @@
 }
 
 .btn-close {
-    --bs-btn-close-bg: url(data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27 fill=%27%23fff%27%3e%3cpath d=%27M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z%27/%3e%3c/svg%3e)!important;
+    --bs-btn-close-bg: url(data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27 fill=%27%23fff%27%3e%3cpath d=%27M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z%27/%3e%3c/svg%3e) !important;
 }

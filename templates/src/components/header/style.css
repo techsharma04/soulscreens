@@ -6,7 +6,7 @@
     top: 0;
     left: 0;
     z-index: 99;
-    background-color: rgb(10, 30, 94, 1)
+    background-color: rgba(2, 20, 54, 0.7);
 }
 .header-row{
     color: #fff;

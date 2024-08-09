@@ -20,15 +20,15 @@ export const fetchMovieFailure = error => ({
 });
 
 export const fetchMovie = (id) => {
-  return (dispatch) => {
+  return dispatch => {
     dispatch(fetchMovieRequest());
-    
-    axios.get(`movies/${id}`)
+
+    axios.get(`/movies/${id}`)
       .then(response => {
-        
         dispatch(fetchMovieSuccess(response.data));
       })
       .catch(error => {
+        console.log(error.message);
         dispatch(fetchMovieFailure(error.message));
       });
   };

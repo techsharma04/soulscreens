@@ -65,8 +65,8 @@ def get_cities(request):
 
 def get_movies(request):
     movies = Movie.objects.all()
-    movie_serializer = MovieSerializer(movies, many=True)
-    return JsonResponse(movie_serializer.data, safe=False)
+    movies_serializer = MovieSerializer(movies, many=True)
+    return JsonResponse(movies_serializer.data, safe=False)
 
 def get_movie_details(request, id):
     movie = Movie.objects.get(id = id)

@@ -22,22 +22,15 @@ const Home = () => {
     const { movies } = useSelector(state => state.movies);
     const [dates, setDates] = useState([]);
     const [filter, setFilter] = useState('filter-display-hide');
+    const [randomNumber, setRandomNumber] = useState(null);
 
-     useEffect(() => {
+    useEffect(() => {
         dispatch(fetchCities());
-    }, [dispatch]);
-
-    useEffect(() => {
         dispatch(fetchMovies());
-    }, [dispatch]);
-    
-    useEffect(() => {
         dispatch(fetchRating());
-    }, [dispatch]);
-
-    useEffect(() => {
         generateNext4Dates();
-    }, [])
+        generateRandomNumber();
+    }, [dispatch]);
 
     const generateNext4Dates = () => {
         const today = new Date();
@@ -54,12 +47,15 @@ const Home = () => {
         setFilter(prevFilter => (prevFilter === '' ? 'filter-display-hide' : ''));
     };
 
-
+    const generateRandomNumber = () => {
+        const number = Math.floor(Math.random() * 10) + 1;
+        setRandomNumber(number); 
+    };
 
     return (
         <div className='container-fluid home-bg'>
             <Header />
-            <div className='container section-main'>
+            <div className='section-main'>
                 <div className='row section-row'>
                     <div className='col-8 section-col'>
                         <h1 className='main-title'>Get <span style={{ color: '#31d7a9' }}>movie</span> tickets</h1>
@@ -169,15 +165,15 @@ const Home = () => {
             </div>
 
             <div className='container container-bottom'>
-                {movies.map((movie) => (
+                {movies.slice().reverse().map((movie) => (
                     <div className='movie' key={movie.id}>
-                        <Link to={`/movies/${movie.id}`}><img src={movie.image} alt='poster' width={255} height={357}/></Link>
+                        <Link to={`/movies/${movie.id}`}><img src={movie.image} alt='poster' width={255} height={357} /></Link>
                         <div className='movie-title'>
                             <Link to={`/movies/${movie.id}`} style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>{movie.title}</h5></Link>
                         </div>
                         <div className='movie-row'>
-                            <div className='col movie-col'><img src={star} alt='star' width={18} style={{marginRight:7}}/> {movie.star_rating.map((rating) => rating.star).join(', ')}</div>
-                            <div className='col movie-col'><img src={cake} alt='cake' style={{marginRight:7}}/> 90%</div>
+                            <div className='col movie-col'><img src={star} alt='star' width={18} style={{ marginRight: 7 }} /> {movie.star_rating.map((rating) => rating.star)}</div>
+                            <div className='col movie-col'><img src={cake} alt='cake' style={{ marginRight: 7 }} /> 90%</div>
                         </div>
                     </div>
                 ))}
