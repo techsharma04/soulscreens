@@ -1,35 +1,66 @@
 import { Header } from '../../components/header';
 import './style.css';
 import Form from 'react-bootstrap/Form';
-import { Link } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
-// import cinema from '../../assets/images/cinema.png';
-// import date from '../../assets/images/date.png';
-// import city from '../../assets/images/city.png';
-import poster from '../../assets/images/movie12.jpg';
-import star from '../../assets/images/star.png';
-import cake from '../../assets/images/cake.png';
 import { fetchCities } from '../../redux/action/FetchCitiesAction';
 import { fetchMovies } from '../../redux/action/FetchMoviesAction';
 import { fetchRating } from '../../redux/action/FetchRatingAction';
 import { useDispatch, useSelector } from 'react-redux';
-
+import { fetchCinemas } from '../../redux/action/FetchCinemasAction';
+import { fetchGenre } from '../../redux/action/FetchGenreAction';
+import { fetchLanguage } from '../../redux/action/FetchLanguageAction';
+import Spinner from 'react-bootstrap/Spinner';
+import { Movies } from '../../components/movies';
+import Dropdown from 'react-bootstrap/Dropdown';
+import ProgressBar from 'react-bootstrap/ProgressBar';
+import { Select } from 'antd';
 
 const Home = () => {
     const dispatch = useDispatch();
     const { cities } = useSelector(state => state.cities);
+    const { cinemas } = useSelector(state => state.cinemas);
     const { rating } = useSelector(state => state.rating);
-    const { movies } = useSelector(state => state.movies);
+    const { loading, movies } = useSelector(state => state.movies);
+    const { genre } = useSelector(state => state.genre);
+    const { language } = useSelector(state => state.language);
+
     const [dates, setDates] = useState([]);
     const [filter, setFilter] = useState('filter-display-hide');
-    const [randomNumber, setRandomNumber] = useState(null);
+
+    const [searchTerm, setSearchTerm] = useState('');
+    const [selectedCity, setSelectedCity] = useState('');
+    const [selectedDate, setSelectedDate] = useState('');
+    const [selectedCinema, setSelectedCinema] = useState('');
+    const [selectedGenre, setSelectedGenre] = useState('');
+    const [selectedLanguage, setSelectedLanguage] = useState('');
+    const [selectedRating, setSelectedRating] = useState('');
+    const [loadingPercentage, setLoadingPercentage] = useState(0);
+
 
     useEffect(() => {
+        const interval = setInterval(() => {
+            setLoadingPercentage((prev) => {
+                if (prev >= 100) {
+                    clearInterval(interval);
+                    return 100;
+                }
+                return prev + 1; // Increase by 10 each time
+            });
+        }, 50); // Update every 500ms
+
+        return () => clearInterval(interval);
+    }, []);
+
+
+    useEffect(() => {
+
         dispatch(fetchCities());
         dispatch(fetchMovies());
         dispatch(fetchRating());
+        dispatch(fetchCinemas());
+        dispatch(fetchGenre());
+        dispatch(fetchLanguage());
         generateNext4Dates();
-        generateRandomNumber();
     }, [dispatch]);
 
     const generateNext4Dates = () => {
@@ -47,9 +78,28 @@ const Home = () => {
         setFilter(prevFilter => (prevFilter === '' ? 'filter-display-hide' : ''));
     };
 
-    const generateRandomNumber = () => {
-        const number = Math.floor(Math.random() * 10) + 1;
-        setRandomNumber(number); 
+
+
+    const handleSearchChange = (e) => setSearchTerm(e);
+    const handleCityChange = (e) => e === undefined ? setSelectedCity(''): setSelectedCity(e);
+    const handleDateChange = (e) => e === undefined ? setSelectedDate('') : setSelectedDate(e);
+    const handleCinemaChange = (e) => e === undefined ? setSelectedCinema('') : setSelectedCinema(e);
+    const handleGenreChange = (e) => e === undefined ? setSelectedGenre('') : setSelectedGenre(e);
+    const handleLanguageChange = (e) => e === undefined ? setSelectedLanguage('') : setSelectedLanguage(e);
+    const handleRatingChange = (e) => e === undefined ? setSelectedRating('') : setSelectedRating(e);
+    
+    
+
+    const filterMovies = () => {
+        return movies.filter(movie => {
+            const matchesSearch = movie.title.toLowerCase().includes(searchTerm.toLowerCase());
+            const matchesCinema = selectedCinema === '' || (movie.theatre.map((cinema) => (cinema.name)).includes(selectedCinema));
+            const matchesGenre = selectedGenre === '' || (movie.movie_genre.map((genre) => (genre.name)).includes(selectedGenre));
+            const matchesLanguage = selectedLanguage === '' || (movie.movie_language.map((lang) => (lang.name)).includes(selectedLanguage));
+            const matchesRating = selectedRating === '' || (movie.movie_rating.map((rating) => (rating.name)).includes(selectedRating));
+
+            return matchesSearch && matchesCinema && matchesGenre && matchesLanguage && matchesRating;
+        });
     };
 
     return (
@@ -63,6 +113,7 @@ const Home = () => {
                     </div>
                 </div>
             </div>
+            {/* movies search & filter start             */}
             <div className='container-ticket'>
                 <div className='row ticket-row'>
                     <div className='col ticket-col'>
@@ -77,107 +128,159 @@ const Home = () => {
                                     id="inputtext5"
                                     aria-describedby="textHelpBlock"
                                     placeholder='Search for movies'
+                                    value={searchTerm}
+                                    onChange={handleSearchChange}
                                 />
-                                <div className='filter' onClick={toggleFilter}>
-
-                                </div>
+                                <div className='filter' onClick={toggleFilter}></div>
                             </div>
                         </div>
                         <div className={`row ticket-form-row ${filter}`}>
                             <div className='col form-col'>
-                                {/* <img src={city} alt='city' /> */}
                                 <span className='label'>City</span>
-                                <Form.Select aria-label="select cities">
-                                    <option className='select-options'>Select a City</option>
-                                    {cities.map((city) => (
-                                        <option key={city.id} className='select-options'>{city.name}</option>
-                                    ))}
-                                </Form.Select>
+                                <Select
+                                    showSearch
+                                    style={{ width: 200 }}
+                                    allowClear
+                                    placeholder="Search City"
+                                    optionFilterProp="label"
+                                    onChange={handleCityChange}
+                                    filterSort={(optionA, optionB) =>
+                                        (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                                    }
+                                    options={cities.map((city, index) => ({
+                                        value: city.name,
+                                        label: city.name,
+                                        key: index,
+                                    }))}
+                                />
                             </div>
+
+
                             <div className='col form-col'>
-                                {/* <img src={date} alt='date' /> */}
                                 <span className='label'>Date</span>
-                                <Form.Select aria-label="select dates">
-                                    <option className='select-options' >Select date</option>
-                                    {dates.map((date, index) => (
-                                        <option className='select-options' key={index} value={date}>{date}</option>
-                                    ))}
-                                </Form.Select>
+                                <Select
+                                    style={{ width: 200 }}
+                                    allowClear
+                                    placeholder="Select a Date"
+                                    onChange={handleDateChange}
+                                    options={
+                                        dates.map((date, index) => ({
+                                        value: date,
+                                        label: date,
+                                        key: index,
+                                    }))}
+                                />
                             </div>
+
+
                             <div className='col form-col custom-select'>
-                                {/* <img src={cinema} alt='cinema' /> */}
                                 <span className='label'>Cinema</span>
-                                <Form.Select aria-label="Default select example">
-                                    <option className='select-options' >Select a cinema</option>
-                                    <option className='select-options'>Big Cinemas</option>
-                                    <option className='select-options'>Cinepolis</option>
-                                    <option className='select-options'>IMAX</option>
-                                    <option className='select-options'>PVR INOX</option>
-                                    <option className='select-options'>Paragon</option>
-                                    <option className='select-options'>New Empire Cinema</option>
-                                </Form.Select>
+                                <Select
+                                    showSearch
+                                    style={{ width: 200 }}
+                                    allowClear
+                                    placeholder="Search Theatre"
+                                    optionFilterProp="label"
+                                    onChange={handleCinemaChange}
+                                    filterSort={(optionA, optionB) =>
+                                        (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                                    }
+                                    options={cinemas.map((cinema, index) => ({
+                                        value: cinema.name,
+                                        label: cinema.name,
+                                        key: index,
+                                    }))}
+                                />
                             </div>
-                        </div>
-                        <div className={`row ticket-form-row-2 ${filter}`}>
+
+                            
                             <div className='col form-col custom-select'>
-                                {/* <img src={Genre} alt='cinema' /> */}
                                 <span className='label'>Genre</span>
-                                <Form.Select aria-label="Default select example">
-                                    <option className='select-options' >Select a Genre</option>
-                                    <option className='select-options'>Action</option>
-                                    <option className='select-options'>Comedy</option>
-                                    <option className='select-options'>Drama</option>
-                                    <option className='select-options'>Horror</option>
-                                    <option className='select-options'>Romance</option>
-                                    <option className='select-options'>Science Fiction</option>
-                                    <option className='select-options'>Thriller</option>
-                                    <option className='select-options'>Western</option>
-                                </Form.Select>
+                                <Select
+                                    showSearch
+                                    style={{ width: 200 }}
+                                    allowClear
+                                    placeholder="Search Genre"
+                                    optionFilterProp="label"
+                                    onChange={handleGenreChange}
+                                    filterSort={(optionA, optionB) =>
+                                        (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                                    }
+                                    options={genre.map((gen, index) => ({
+                                        value: gen.name,
+                                        label: gen.name,
+                                        key: index,
+                                    }))}
+                                />
                             </div>
 
+
                             <div className='col form-col custom-select'>
-                                {/* <img src={Language} alt='langauage' /> */}
                                 <span className='label'>Language</span>
-                                <Form.Select aria-label="Default select example">
-                                    <option className='select-options' >Select a Language</option>
-                                    <option className='select-options'>English</option>
-                                    <option className='select-options'>French</option>
-                                    <option className='select-options'>Hindi</option>
-                                    <option className='select-options'>Mandarin</option>
-                                    <option className='select-options'>Punjabi</option>
-                                    <option className='select-options'>Telugu</option>
-                                </Form.Select>
+                                <Select
+                                    showSearch
+                                    style={{ width: 200 }}
+                                    allowClear
+                                    placeholder="Search Language"
+                                    optionFilterProp="label"
+                                    onChange={handleLanguageChange}
+                                    filterSort={(optionA, optionB) =>
+                                        (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                                    }
+                                    options={language.map((lang, index) => ({
+                                        value: lang.name,
+                                        label: lang.name,
+                                        key: index,
+                                    }))}
+                                />
                             </div>
 
                             <div className='col form-col custom-select'>
-                                {/* <img src={Rating} alt='rating' /> */}
                                 <span className='label'>Rating</span>
-                                <Form.Select aria-label="Default select example">
-                                    <option className='select-options' >Select a Rating</option>
-                                    {rating.map((rating) => (
-                                        <option className='select-options' key={rating.id}>{rating.name}</option>
-                                    ))}
-                                </Form.Select>
+                                <Select
+                                    showSearch
+                                    style={{ width: 200 }}
+                                    allowClear
+                                    placeholder="Search Rating"
+                                    optionFilterProp="label"
+                                    onChange={handleRatingChange}
+                                    filterSort={(optionA, optionB) =>
+                                        (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                                    }
+                                    options={rating.map((rate, index) => ({
+                                        value: rate.name,
+                                        label: rate.name,
+                                        key: index,
+                                    }))}
+                                />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div className='container container-bottom'>
-                {movies.slice().reverse().map((movie) => (
-                    <div className='movie' key={movie.id}>
-                        <Link to={`/movies/${movie.id}`}><img src={movie.image} alt='poster' width={255} height={357} /></Link>
-                        <div className='movie-title'>
-                            <Link to={`/movies/${movie.id}`} style={{ textDecoration: 'none' }}><h5 className='movie-title-heading'>{movie.title}</h5></Link>
-                        </div>
-                        <div className='movie-row'>
-                            <div className='col movie-col'><img src={star} alt='star' width={18} style={{ marginRight: 7 }} /> {movie.star_rating.map((rating) => rating.star)}</div>
-                            <div className='col movie-col'><img src={cake} alt='cake' style={{ marginRight: 7 }} /> 90%</div>
-                        </div>
-                    </div>
-                ))}
-            </div>
+            {/* movies search and filter finished */}
+            {/* Fetching movies start*/}
+            {loading ? (
+                <div className="spinner-container position-fixed">
+                    <Spinner
+                        animation="border"
+                        variant="light"
+                        className="large-spinner"
+                    />
+                    <span className="spinner-text">
+                        {/* <ProgressBar striped variant="danger" label={loadingPercentage} now={loadingPercentage} style={{width: '100%'}}/>  */}
+                        {loadingPercentage}%</span>
+                </div>
+            ) : (
+                <div className='container container-bottom'>
+                    {filterMovies().slice().reverse().map((movie, index) => (
+                        <Movies movie={movie} key={index} />
+                    )
+                    )
+                    }
+                </div>
+            )}
+            {/* fetching moviies finished             */}
         </div>
     );
 };

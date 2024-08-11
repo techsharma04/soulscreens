@@ -23,6 +23,7 @@ export const fetchMovies = () => {
     dispatch(fetchMoviesRequest());
     axios.get('movies/')
       .then(response => {
+        
         dispatch(fetchMoviesSuccess(response.data));
       })
       .catch(error => {

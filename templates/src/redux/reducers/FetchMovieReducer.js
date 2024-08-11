@@ -26,7 +26,7 @@ import {
       case FETCH_MOVIE_FAILURE:
         return {
           loading: false,
-          movie: [],
+          movie: '',
           error: action.payload,
         };
       default:

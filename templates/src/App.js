@@ -15,8 +15,8 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/movies/:id/" element={<Movie />} />
-          <Route path="/movie-time" element={<Time />} />
-          <Route path="/movie-seating" element={<Seat />} />
+          <Route path="/timing" element={<Time />} />
+          <Route path="/seatselection/:id/:id" element={<Seat />} />
       </Routes>
     </BrowserRouter>
   );

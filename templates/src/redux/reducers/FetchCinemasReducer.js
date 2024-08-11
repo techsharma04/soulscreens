@@ -1,32 +1,32 @@
 import {
-    FETCH_MOVIES_REQUEST,
-    FETCH_MOVIES_SUCCESS,
-    FETCH_MOVIES_FAILURE,
-  } from '../action/FetchMoviesAction';
+    FETCH_CINEMAS_REQUEST,
+    FETCH_CINEMAS_SUCCESS,
+    FETCH_CINEMAS_FAILURE,
+  } from '../action/FetchCinemasAction';
   
   const initialState = {
     loading: false,
-    movies: [],
+    cinemas: [],
     error: '',
   };
   
-  const moviesReducer = (state = initialState, action) => {
+  const cinemasReducer = (state = initialState, action) => {
     switch (action.type) {
-      case FETCH_MOVIES_REQUEST:
+      case FETCH_CINEMAS_REQUEST:
         return {
           ...state,
           loading: true,
         };
-      case FETCH_MOVIES_SUCCESS:
+      case FETCH_CINEMAS_SUCCESS:
         return {
           loading: false,
-          movies: action.payload,
+          cinemas: action.payload,
           error: '',
         };
-      case FETCH_MOVIES_FAILURE:
+      case FETCH_CINEMAS_FAILURE:
         return {
           loading: false,
-          movies: [],
+          cinemas: [],
           error: action.payload,
         };
       default:
@@ -34,5 +34,5 @@ import {
     }
   };
   
-  export default moviesReducer;
+  export default cinemasReducer;
   

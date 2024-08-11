@@ -1,32 +1,32 @@
 import {
-    FETCH_MOVIES_REQUEST,
-    FETCH_MOVIES_SUCCESS,
-    FETCH_MOVIES_FAILURE,
-  } from '../action/FetchMoviesAction';
+    FETCH_GENRE_REQUEST,
+    FETCH_GENRE_SUCCESS,
+    FETCH_GENRE_FAILURE,
+  } from '../action/FetchGenreAction';
   
   const initialState = {
     loading: false,
-    movies: [],
+    genre: [],
     error: '',
   };
   
-  const moviesReducer = (state = initialState, action) => {
+  const genreReducer = (state = initialState, action) => {
     switch (action.type) {
-      case FETCH_MOVIES_REQUEST:
+      case FETCH_GENRE_REQUEST:
         return {
           ...state,
           loading: true,
         };
-      case FETCH_MOVIES_SUCCESS:
+      case FETCH_GENRE_SUCCESS:
         return {
           loading: false,
-          movies: action.payload,
+          genre: action.payload,
           error: '',
         };
-      case FETCH_MOVIES_FAILURE:
+      case FETCH_GENRE_FAILURE:
         return {
           loading: false,
-          movies: [],
+          genre: [],
           error: action.payload,
         };
       default:
@@ -34,5 +34,5 @@ import {
     }
   };
   
-  export default moviesReducer;
+  export default genreReducer;
   
