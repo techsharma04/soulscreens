@@ -6,7 +6,7 @@ import { fetchCities } from '../../redux/action/FetchCitiesAction';
 import { fetchMovies } from '../../redux/action/FetchMoviesAction';
 import { fetchRating } from '../../redux/action/FetchRatingAction';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCinemas } from '../../redux/action/FetchCinemasAction';
+import { fetchCinema } from '../../redux/action/FetchCinemasAction';
 import { fetchGenre } from '../../redux/action/FetchGenreAction';
 import { fetchLanguage } from '../../redux/action/FetchLanguageAction';
 import Spinner from 'react-bootstrap/Spinner';
@@ -37,6 +37,7 @@ const Home = () => {
     const [loadingPercentage, setLoadingPercentage] = useState(0);
 
 
+    
     useEffect(() => {
         const interval = setInterval(() => {
             setLoadingPercentage((prev) => {
@@ -57,7 +58,6 @@ const Home = () => {
         dispatch(fetchCities());
         dispatch(fetchMovies());
         dispatch(fetchRating());
-        dispatch(fetchCinemas());
         dispatch(fetchGenre());
         dispatch(fetchLanguage());
         generateNext4Dates();
@@ -81,24 +81,27 @@ const Home = () => {
 
 
     const handleSearchChange = (e) => setSearchTerm(e);
-    const handleCityChange = (e) => e === undefined ? setSelectedCity(''): setSelectedCity(e);
+    const handleCityChange = (e) => {
+        e === undefined ? setSelectedCity('') : setSelectedCity(e) 
+        dispatch(fetchCinema(e));
+    }
     const handleDateChange = (e) => e === undefined ? setSelectedDate('') : setSelectedDate(e);
     const handleCinemaChange = (e) => e === undefined ? setSelectedCinema('') : setSelectedCinema(e);
     const handleGenreChange = (e) => e === undefined ? setSelectedGenre('') : setSelectedGenre(e);
     const handleLanguageChange = (e) => e === undefined ? setSelectedLanguage('') : setSelectedLanguage(e);
     const handleRatingChange = (e) => e === undefined ? setSelectedRating('') : setSelectedRating(e);
-    
-    
+
+
 
     const filterMovies = () => {
         return movies.filter(movie => {
             const matchesSearch = movie.title.toLowerCase().includes(searchTerm.toLowerCase());
-            const matchesCinema = selectedCinema === '' || (movie.theatre.map((cinema) => (cinema.name)).includes(selectedCinema));
-            const matchesGenre = selectedGenre === '' || (movie.movie_genre.map((genre) => (genre.name)).includes(selectedGenre));
-            const matchesLanguage = selectedLanguage === '' || (movie.movie_language.map((lang) => (lang.name)).includes(selectedLanguage));
-            const matchesRating = selectedRating === '' || (movie.movie_rating.map((rating) => (rating.name)).includes(selectedRating));
+            // const matchesCinema = selectedCinema === '' || (movie.theatre.map((cinema) => (cinema.name)).includes(selectedCinema));
+            const matchesGenre = selectedGenre === '' || (movie.genre.map((genre) => (genre.name)).includes(selectedGenre));
+            const matchesLanguage = selectedLanguage === '' || (movie.language.map((lang) => (lang.name)).includes(selectedLanguage));
+            const matchesRating = selectedRating === '' || (movie.rating.map((rating) => (rating.name)).includes(selectedRating));
 
-            return matchesSearch && matchesCinema && matchesGenre && matchesLanguage && matchesRating;
+            return matchesSearch && matchesGenre && matchesLanguage && matchesRating;
         });
     };
 
@@ -119,6 +122,7 @@ const Home = () => {
                     <div className='col ticket-col'>
                         <h6 className='ticket-title'>Welcome to boleto</h6>
                         <h1 className='ticket-subtitle'>what are you looking for</h1>
+                        <h6 className='ticket-title'>{selectedCity}</h6>
                     </div>
                     <div className='col ticket-col ticket-col-form'>
                         <div className='row ticket-form-row'>
@@ -148,25 +152,8 @@ const Home = () => {
                                         (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                                     }
                                     options={cities.map((city, index) => ({
-                                        value: city.name,
+                                        value: city.id,
                                         label: city.name,
-                                        key: index,
-                                    }))}
-                                />
-                            </div>
-
-
-                            <div className='col form-col'>
-                                <span className='label'>Date</span>
-                                <Select
-                                    style={{ width: 200 }}
-                                    allowClear
-                                    placeholder="Select a Date"
-                                    onChange={handleDateChange}
-                                    options={
-                                        dates.map((date, index) => ({
-                                        value: date,
-                                        label: date,
                                         key: index,
                                     }))}
                                 />
@@ -193,7 +180,24 @@ const Home = () => {
                                 />
                             </div>
 
-                            
+
+                            <div className='col form-col'>
+                                <span className='label'>Date</span>
+                                <Select
+                                    style={{ width: 200 }}
+                                    allowClear
+                                    placeholder="Select a Date"
+                                    onChange={handleDateChange}
+                                    options={
+                                        dates.map((date, index) => ({
+                                            value: date,
+                                            label: date,
+                                            key: index,
+                                        }))}
+                                />
+                            </div>
+
+
                             <div className='col form-col custom-select'>
                                 <span className='label'>Genre</span>
                                 <Select

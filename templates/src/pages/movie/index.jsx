@@ -39,7 +39,7 @@ const Movie = ({hide}) => {
                                     </div>
                                 </div>
                                 <div style={{ textAlign: 'right', width: '100%' }}>
-                                    <Link to={`/timing`}><button className="book-btn">Book Tickets</button></Link>
+                                    <Link to={`/movies/timing/${movie.id}`}><button className="book-btn">Book Tickets</button></Link>
                                 </div>
                             </div> 
                         </div>

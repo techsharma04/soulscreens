@@ -103,8 +103,13 @@ def get_cinema(request):
     cinema_serializer = CinemaSerializer(cinema, many=True)
     return JsonResponse(cinema_serializer.data, safe=False)
 
-def get_timing(request):
-    timing = Timing.objects.all()
+def get_cinema_details(request, id):
+    theatre = Theatre.objects.get(id=id)
+    cinema_serializer = CinemaSerializer(theatre)
+    return JsonResponse(cinema_serializer.data, safe=False)
+
+def get_timing(request, id):
+    timing = Timing.objects.get(id=id)
     timing_serializer = TimingSerializer(timing, many=True)
     return JsonResponse(timing_serializer.data, safe=False)
 
@@ -112,7 +117,6 @@ def get_seating(request):
     timing = Timing.objects.all()
     timing_serializer = TimingSerializer(timing, many=True)
     return JsonResponse(timing_serializer.data, safe=False)
-
 
 def get_genre(request):
     genre = Genre.objects.all()
@@ -122,6 +126,11 @@ def get_genre(request):
 def get_location(request):
     location = Location.objects.all()
     location_serializer = LocationSerializer(location, many=True)
+    return JsonResponse(location_serializer.data, safe=False)
+
+def get_city(request, id):
+    location = Location.objects.get(id=id)
+    location_serializer = LocationSerializer(location)
     return JsonResponse(location_serializer.data, safe=False)
 
 def get_language(request):

@@ -21,7 +21,7 @@ export const fetchCitiesFailure = error => ({
 export const fetchCities = () => {
   return dispatch => {
     dispatch(fetchCitiesRequest());
-    axios.get('cities/')
+    axios.get('http://127.0.0.1:8000/cities')
       .then(response => {
         dispatch(fetchCitiesSuccess(response.data));
       })

@@ -4,7 +4,6 @@ import './style.css'
 import { Link } from "react-router-dom";
 import { useEffect } from 'react';
 import { fetchCinemas } from '../../redux/action/FetchCinemasAction';
-import { fetchTiming } from '../../redux/action/FetchTimingAction';
 
 const Timing = () => {
 
@@ -12,11 +11,12 @@ const Timing = () => {
 
 
     useEffect(() => {
-        dispatch(fetchCinemas);
-        dispatch(fetchTiming);
+        dispatch(fetchCinemas());
     }, [dispatch]);
 
     const { cinemas } = useSelector(state => state.cinemas);
+    console.log(cinemas);
+    
 
 
 

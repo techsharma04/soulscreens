@@ -18,6 +18,7 @@ class User(models.Model):
 class Genre(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200, unique=True)
+    movie = models.ManyToManyField("Movie", related_name="movie_genre")
 
     class Meta:
         verbose_name = "Genre"
@@ -30,6 +31,7 @@ class Genre(models.Model):
 class Language(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200, unique=True)
+    movie = models.ManyToManyField("Movie", related_name="movie_language")
 
     class Meta:
         verbose_name = "Language"
@@ -39,21 +41,10 @@ class Language(models.Model):
         return self.name
 
 
-class Location(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=200, unique=True)
-
-    class Meta:
-        verbose_name = "Location"
-        verbose_name_plural = "Locations"
-
-    def __str__(self):
-        return self.name
-
-
 class Rating(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200, unique=True)
+    movie = models.ManyToManyField("Movie", related_name="movie_rating")
 
     class Meta:
         verbose_name = "Rating"
@@ -66,7 +57,8 @@ class Rating(models.Model):
 class StarRating(models.Model):
     id = models.AutoField(primary_key=True)
     star = models.CharField(max_length=200, unique=True)
-
+    movie = models.ManyToManyField("Movie", related_name="movie_star_rating")
+    
     class Meta:
         verbose_name = "Star Rating"
         verbose_name_plural = "Star Ratings"
@@ -79,6 +71,8 @@ class Timing(models.Model):
     id = models.AutoField(primary_key=True)
     time = models.CharField(max_length=50)
     seat = models.ManyToManyField("Seats", related_name="timings")
+    movie = models.ManyToManyField("Movie", related_name="movie_show_timings")
+
 
     class Meta:
         verbose_name = "Timing"
@@ -86,20 +80,6 @@ class Timing(models.Model):
 
     def __str__(self):
         return self.time
-
-
-class Theatre(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=200)
-    time = models.ManyToManyField("Timing", related_name="theatres")
-    seat = models.ManyToManyField("Seats", related_name="theatres")
-
-    class Meta:
-        verbose_name = "Theatre"
-        verbose_name_plural = "Theatres"
-
-    def __str__(self):
-        return self.name
 
 
 class Seats(models.Model):
@@ -113,18 +93,14 @@ class Seats(models.Model):
 class Movie(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=200)
-    movie_genre = models.ManyToManyField("Genre", related_name="genres_movies")
-    location = models.ManyToManyField("Location", related_name="locations_movies")
-    movie_language = models.ManyToManyField("Language", related_name="languages_movies")
-    movie_rating = models.ManyToManyField("Rating", related_name="ratings_movies")
     image = models.TextField()
-    star_rating = models.ManyToManyField(
-        "StarRating", related_name="star_ratings_movies"
-    )
-    theatre = models.ManyToManyField("Theatre", related_name="theatres_movies")
     release_date = models.DateField(auto_now_add=True)
     time_length = models.CharField(max_length=100, default="2 hrs 50 mins")
     visibility_status = models.CharField(max_length=100)
+    genre = models.ManyToManyField("Genre", related_name="movie_genre")
+    language = models.ManyToManyField("Language", related_name="movie_language")
+    rating = models.ManyToManyField("Rating", related_name="movie_rating")
+    star_rating = models.ManyToManyField("StarRating", related_name="movie_star_rating")
 
     class Meta:
         verbose_name = "Movie"
@@ -132,3 +108,36 @@ class Movie(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Theatre(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=200)
+    seat = models.ManyToManyField("Seats", related_name="theatre_seats")
+    movie = models.ManyToManyField("Movie", related_name="theatre_movies")
+    genre = models.ManyToManyField("Genre", related_name="movies_genre")
+    language = models.ManyToManyField("Language", related_name="movies_language")
+    rating = models.ManyToManyField("Rating", related_name="movies_rating")
+    star_rating = models.ManyToManyField("StarRating", related_name="movies_star_rating")
+    timing = models.ManyToManyField("Timing", related_name="movies_star_rating")
+    
+
+    class Meta:
+        verbose_name = "Theatre"
+        verbose_name_plural = "Theatres"
+
+    def __str__(self):
+        return self.name
+
+
+class Location(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=200, unique=True)
+    cinemas = models.ManyToManyField("Theatre", related_name="theatre_locations")
+    
+    class Meta:
+        verbose_name = "Location"
+        verbose_name_plural = "Locations"
+
+    def __str__(self):
+        return self.name
