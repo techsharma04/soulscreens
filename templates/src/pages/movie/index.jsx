@@ -9,8 +9,8 @@ import movieposter from '../../assets/images/movie-poster1.gif';
 const Movie = ({hide}) => {
     const { id } = useParams();
     const dispatch = useDispatch();
-    const movie = useSelector(state => state.movie.movie);
-
+    const movie = useSelector(state => state.movie.movie); 
+    
 
     useEffect(() => {
         dispatch(fetchMovie(id));
@@ -29,9 +29,9 @@ const Movie = ({hide}) => {
                             <div className="top-inside-row">
                                 <div className="inside-top-row">
                                     <h1>{movie.title}</h1>
-                                    <p>{movie.movie_language && movie.movie_language.map((lang, index) => lang.name).join(', ')}</p>
+                                    <p>{movie.language && movie.language.map((lang, index) => lang.name).join(', ')}</p>
                                     <div style={{ display: "flex" }}>
-                                        {movie.movie_genre && movie.movie_genre.map((genre, index) => <span className="genre-style" key={index}>{genre.name}</span>)}
+                                        {movie.genre && movie.genre.map((genre, index) => <span className="genre-style" key={index}>{genre.name}</span>)}
                                     </div>
                                     <div className="datetime-row">
                                         <div className="datetime-col"><i className="fas fa-calendar-alt"></i><small>{movie.release_date}</small></div>

@@ -1,6 +1,5 @@
 import {
   FETCH_CINEMAS_REQUEST,
-  FETCH_CINEMA_SUCCESS,
   FETCH_CINEMAS_SUCCESS,
   FETCH_CINEMAS_FAILURE,
 } from '../action/FetchCinemasAction';
@@ -8,7 +7,6 @@ import {
 const initialState = {
   loading: false,
   cinemas: [],
-  cinema: [],
   error: '',
 };
 
@@ -23,12 +21,6 @@ const cinemasReducer = (state = initialState, action) => {
       return {
         loading: false,
         cinemas: action.payload,
-        error: '',
-      };
-    case FETCH_CINEMA_SUCCESS:
-      return {
-        loading: false,
-        cinema: action.payload,
         error: '',
       };
     case FETCH_CINEMAS_FAILURE:

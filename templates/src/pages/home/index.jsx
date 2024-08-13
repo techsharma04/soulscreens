@@ -6,7 +6,6 @@ import { fetchCities } from '../../redux/action/FetchCitiesAction';
 import { fetchMovies } from '../../redux/action/FetchMoviesAction';
 import { fetchRating } from '../../redux/action/FetchRatingAction';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCinema } from '../../redux/action/FetchCinemasAction';
 import { fetchGenre } from '../../redux/action/FetchGenreAction';
 import { fetchLanguage } from '../../redux/action/FetchLanguageAction';
 import Spinner from 'react-bootstrap/Spinner';
@@ -14,10 +13,13 @@ import { Movies } from '../../components/movies';
 import Dropdown from 'react-bootstrap/Dropdown';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import { Select } from 'antd';
+import { fetchCinemas } from '../../redux/action/FetchCinemasAction';
+import { fetchCity } from '../../redux/action/FetchSingleCityAction'
 
 const Home = () => {
     const dispatch = useDispatch();
     const { cities } = useSelector(state => state.cities);
+    const { city } = useSelector(state => state.city);
     const { cinemas } = useSelector(state => state.cinemas);
     const { rating } = useSelector(state => state.rating);
     const { loading, movies } = useSelector(state => state.movies);
@@ -37,7 +39,7 @@ const Home = () => {
     const [loadingPercentage, setLoadingPercentage] = useState(0);
 
 
-    
+
     useEffect(() => {
         const interval = setInterval(() => {
             setLoadingPercentage((prev) => {
@@ -56,6 +58,7 @@ const Home = () => {
     useEffect(() => {
 
         dispatch(fetchCities());
+        dispatch(fetchCinemas());
         dispatch(fetchMovies());
         dispatch(fetchRating());
         dispatch(fetchGenre());
@@ -80,28 +83,26 @@ const Home = () => {
 
 
 
-    const handleSearchChange = (e) => setSearchTerm(e);
-    const handleCityChange = (e) => {
-        e === undefined ? setSelectedCity('') : setSelectedCity(e) 
-        dispatch(fetchCinema(e));
-    }
-    const handleDateChange = (e) => e === undefined ? setSelectedDate('') : setSelectedDate(e);
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value); // Extract the input value from the event object
+    };
+    const handleCityChange = (e) => { e === undefined ? setSelectedCity('') : setSelectedCity(e); dispatch(fetchCity(e)); }
     const handleCinemaChange = (e) => e === undefined ? setSelectedCinema('') : setSelectedCinema(e);
+    const handleDateChange = (e) => e === undefined ? setSelectedDate('') : setSelectedDate(e);
     const handleGenreChange = (e) => e === undefined ? setSelectedGenre('') : setSelectedGenre(e);
     const handleLanguageChange = (e) => e === undefined ? setSelectedLanguage('') : setSelectedLanguage(e);
     const handleRatingChange = (e) => e === undefined ? setSelectedRating('') : setSelectedRating(e);
 
-
-
     const filterMovies = () => {
         return movies.filter(movie => {
-            const matchesSearch = movie.title.toLowerCase().includes(searchTerm.toLowerCase());
-            // const matchesCinema = selectedCinema === '' || (movie.theatre.map((cinema) => (cinema.name)).includes(selectedCinema));
+            const search = (searchTerm && typeof searchTerm === 'string') ? searchTerm.toLowerCase() : '';
+            const matchesSearch = movie.title.toLowerCase().includes(search);
+            const matchesCinema = selectedCinema === '' || (movie.cinema.map((cinema) => (cinema.name)).includes(selectedCinema));
             const matchesGenre = selectedGenre === '' || (movie.genre.map((genre) => (genre.name)).includes(selectedGenre));
             const matchesLanguage = selectedLanguage === '' || (movie.language.map((lang) => (lang.name)).includes(selectedLanguage));
             const matchesRating = selectedRating === '' || (movie.rating.map((rating) => (rating.name)).includes(selectedRating));
 
-            return matchesSearch && matchesGenre && matchesLanguage && matchesRating;
+            return matchesSearch && matchesCinema && matchesGenre && matchesLanguage && matchesRating;
         });
     };
 
@@ -122,7 +123,6 @@ const Home = () => {
                     <div className='col ticket-col'>
                         <h6 className='ticket-title'>Welcome to boleto</h6>
                         <h1 className='ticket-subtitle'>what are you looking for</h1>
-                        <h6 className='ticket-title'>{selectedCity}</h6>
                     </div>
                     <div className='col ticket-col ticket-col-form'>
                         <div className='row ticket-form-row'>
@@ -172,7 +172,7 @@ const Home = () => {
                                     filterSort={(optionA, optionB) =>
                                         (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                                     }
-                                    options={cinemas.map((cinema, index) => ({
+                                    options={city.cinemas && city.cinemas.map((cinema, index) => ({
                                         value: cinema.name,
                                         label: cinema.name,
                                         key: index,

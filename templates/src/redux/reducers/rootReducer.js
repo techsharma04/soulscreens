@@ -9,11 +9,13 @@ import cinemasReducer from './FetchCinemasReducer';
 import genreReducer from './FetchGenreReducer';
 import languageReducer from './FetchLanguageReducer';
 import timingReducer from './FetchTimingReducer';
+import cityReducer from './FetchSingleCityReducer';
 
 const rootReducer = combineReducers({
     signup: signupReducer,
     login: loginReducer,
     cities: citiesReducer,
+    city: cityReducer,
     rating: ratingReducer,
     movie: movieReducer,
     movies: moviesReducer,

@@ -91,7 +91,7 @@ DATABASES = {
             'NAME': 'movie_ticket_booking',
             'ENFORCE_SCHEMA': False,
             'CLIENT': {
-                'host': 'mongodb+srv://techshar:Alliswell1@cinema.ysuxqk8.mongodb.net/?retryWrites=true&w=majority&appName=Cinema'
+                'host': 'mongodb://localhost:27017/'
             }  
         }
 }
