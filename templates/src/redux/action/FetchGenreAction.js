@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Endpoints from '../../api/endpoint';
 
 export const FETCH_GENRE_REQUEST = 'FETCH_GENRE_REQUEST';
 export const FETCH_GENRE_SUCCESS = 'FETCH_GENRE_SUCCESS';
@@ -21,7 +22,7 @@ export const fetchGenreFailure = error => ({
 export const fetchGenre = () => {
   return dispatch => {
     dispatch(fetchGenreRequest());
-    axios.get('/genre/')
+    axios.get(`${Endpoints.FETCH_GENRE_URL}`)
       .then(response => {
         dispatch(fetchGenreSuccess(response.data));
       })

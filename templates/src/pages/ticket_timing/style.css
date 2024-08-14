@@ -47,8 +47,12 @@
     column-gap: 100px;
 }
 
-.timing-input-div {
-    width: 300px;
+.timing-input-div{
+    width: 330px;
+    padding: 0 5px;
+}
+
+.time-input-div-2 {
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -124,4 +128,8 @@
 .time-btn:hover {
     background-color: #31d7a9 !important;
     color: #000 !important;
+}
+
+.error-message {
+    border: 2px solid red;
 }

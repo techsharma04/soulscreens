@@ -1,4 +1,6 @@
 import axios from 'axios';
+import Endpoints from '../../api/endpoint';
+
 
 export const FETCH_RATING_REQUEST = 'FETCH_RATING_REQUEST';
 export const FETCH_RATING_SUCCESS = 'FETCH_RATING_SUCCESS';
@@ -21,7 +23,7 @@ export const fetchRatingFailure = error => ({
 export const fetchRating = () => {
   return dispatch => {
     dispatch(fetchRatingRequest());
-    axios.get('rating/')
+    axios.get(`${Endpoints.FETCH_RATING_URL}`)
       .then(response => {
         dispatch(fetchRatingSuccess(response.data));
       })

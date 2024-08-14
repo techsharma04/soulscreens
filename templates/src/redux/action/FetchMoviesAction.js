@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Endpoints from '../../api/endpoint';
 
 export const FETCH_MOVIES_REQUEST = 'FETCH_MOVIES_REQUEST';
 export const FETCH_MOVIES_SUCCESS = 'FETCH_MOVIES_SUCCESS';
@@ -21,7 +22,7 @@ export const fetchMoviesFailure = error => ({
 export const fetchMovies = () => {
   return dispatch => {
     dispatch(fetchMoviesRequest());
-    axios.get('movies/')
+    axios.get(`${Endpoints.FETCH_MOVIES_URL}`)
       .then(response => {
         
         dispatch(fetchMoviesSuccess(response.data));

@@ -79,6 +79,8 @@ class Timing(models.Model):
 class Seats(models.Model):
     id = models.AutoField(primary_key=True)
     seat = models.CharField(max_length=50)
+    price = models.CharField(max_length=50, default=300)
+    status = models.CharField(max_length=100, default="vacant")
 
     def __str__(self):
         return self.seat

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Endpoints from '../../api/endpoint';
 
 export const FETCH_LANGUAGE_REQUEST = 'FETCH_LANGUAGE_REQUEST';
 export const FETCH_LANGUAGE_SUCCESS = 'FETCH_LANGUAGE_SUCCESS';
@@ -21,7 +22,7 @@ export const fetchLanguageFailure = error => ({
 export const fetchLanguage = () => {
   return dispatch => {
     dispatch(fetchLanguageRequest());
-    axios.get('language/')
+    axios.get(`${Endpoints.FETCH_LANGUAGE_URL}`)
       .then(response => {
         dispatch(fetchLanguageSuccess(response.data));
       })

@@ -1,8 +1,10 @@
+import Endpoints from '../../api/endpoint';
 import {
     FETCH_GENRE_REQUEST,
     FETCH_GENRE_SUCCESS,
     FETCH_GENRE_FAILURE,
   } from '../action/FetchGenreAction';
+
   
   const initialState = {
     loading: false,

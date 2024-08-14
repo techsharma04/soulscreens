@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Endpoints from '../../api/endpoint';
 
 export const FETCH_MOVIE_REQUEST = 'FETCH_MOVIE_REQUEST';
 export const FETCH_MOVIE_SUCCESS = 'FETCH_MOVIE_SUCCESS';
@@ -23,7 +24,7 @@ export const fetchMovie = (id) => {
   return dispatch => {
     dispatch(fetchMovieRequest());
 
-    axios.get(`/movies/${id}`)
+    axios.get(`${Endpoints.FETCH_MOVIES_URL}${id}`)
       .then(response => {
         dispatch(fetchMovieSuccess(response.data));
       })

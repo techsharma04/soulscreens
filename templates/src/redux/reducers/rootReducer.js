@@ -10,6 +10,7 @@ import genreReducer from './FetchGenreReducer';
 import languageReducer from './FetchLanguageReducer';
 import timingReducer from './FetchTimingReducer';
 import cityReducer from './FetchSingleCityReducer';
+import seatReducer from './FetchSeatsReducer';
 
 const rootReducer = combineReducers({
     signup: signupReducer,
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
     genre: genreReducer,
     timing: timingReducer,
     language: languageReducer,
+    seat: seatReducer,
 });
 
 export default rootReducer;

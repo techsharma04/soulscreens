@@ -278,7 +278,7 @@ const Home = () => {
             ) : (
                 <div className='container container-bottom'>
                     {filterMovies().slice().reverse().map((movie, index) => (
-                        <Movies movie={movie} key={index} />
+                        movie.visibility_status === "true" ? <Movies movie={movie} key={index} /> : ''
                     )
                     )
                     }

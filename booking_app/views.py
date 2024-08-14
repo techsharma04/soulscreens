@@ -114,8 +114,8 @@ def get_timing(request, id):
     return JsonResponse(timing_serializer.data, safe=False)
 
 def get_seating(request):
-    timing = Timing.objects.all()
-    timing_serializer = TimingSerializer(timing, many=True)
+    timing = Seats.objects.all()
+    timing_serializer = SeatingSerializer(timing, many=True)
     return JsonResponse(timing_serializer.data, safe=False)
 
 def get_genre(request):
