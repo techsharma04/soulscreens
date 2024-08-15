@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Endpoints from '../../api/endpoint';
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -30,15 +31,17 @@ axios.defaults.headers.common['X-CSRFToken'] = getCsrfToken();
 export const login = (formData) => async (dispatch) => {
     dispatch(loginRequest());
     
+    
     try {
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        const response = await axios.post('login/', formData, {
+        const response = await axios.post(`${Endpoints.LOGIN_URL}`, formData, {
             headers: {
                 'X-CSRFToken': csrfToken
             }
         });
         
-        
+        localStorage.setItem('id', response.data.user.id);
+        localStorage.setItem('email', response.data.user.email);
         dispatch(loginSuccess(response.data.message, response.data.user, csrfToken));
     } catch (error) {
         dispatch(loginFailure(error.response.data.error || 'An error occurred'));

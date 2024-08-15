@@ -12,9 +12,13 @@ export const LoginComponent = () => {
     const [loader, setLoader] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    
+
+    
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        
         setLoader(true);
         dispatch(login({ email, password }));
     };
@@ -67,7 +71,7 @@ export const LoginComponent = () => {
                     <span style={{ display: 'flex', width: '40%', justifyContent: 'space-between', color: '#6d7bba' }}>
                         <FormCheck />Remember Password
                     </span>
-                    <Link style={{ textDecoration: 'none', color: '#6d7bba' }}>Forgot Password</Link>
+                    <Link to={`/retrieve-password`} style={{ textDecoration: 'none', color: '#6d7bba' }}>Forgot Password</Link>
                 </div>
                 <div style={{ display: "flex", flexDirection: 'column', marginTop: '50px' }}>
                     <Button size="lg" className="signup-btn" type="submit" disabled={loading}>

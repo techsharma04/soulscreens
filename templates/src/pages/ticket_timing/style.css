@@ -8,6 +8,7 @@
 }
 
 .timing-details-row {
+    
     height: 100%;
     width: 100%;
     display: flex;
@@ -15,7 +16,7 @@
     align-items: center;
     position: relative;
     z-index: 9;
-    margin-top: 450px;
+    margin-top: 300px;
 }
 
 .timing-details>div>p {
@@ -86,7 +87,8 @@
 .time-row {
     color: #fff;
     background-color: #01173f;
-    width: 90%;
+    width: 100%;
+    
 }
 
 .time-col {
@@ -133,3 +135,4 @@
 .error-message {
     border: 2px solid red;
 }
+

@@ -14,7 +14,7 @@ import expImg from '../../assets/images/exp.png';
 import bannerAd from '../../assets/images/banner03.jpg';
 
 const Timing = () => {
-    const { id } = useParams();
+    const { mid } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -29,10 +29,10 @@ const Timing = () => {
     const [isFormValid, setIsFormValid] = useState(true);
 
     useEffect(() => {
-        dispatch(fetchMovie(id));
+        dispatch(fetchMovie(mid));
         dispatch(fetchCities());
         generateNext4Dates();
-    }, [dispatch, id]);
+    }, [dispatch, mid]);
 
     const generateNext4Dates = () => {
         const today = new Date();
@@ -53,32 +53,25 @@ const Timing = () => {
     const handleDateChange = (value) => setSelectedDate(value || '');
     const handleLanguageChange = (value) => setSelectedLanguage(value || '');
 
-    const handleProceed = (time, cinemaName) => {
-        // Check if all fields are filled
+    const handleProceed = (time, cinema) => {
         if (!selectedCity || !selectedDate || !selectedLanguage) {
             setIsFormValid(false);
             return;
         }
-
-        // Proceed to seat selection page
-        localStorage.setItem('movie', id)
-        localStorage.setItem('city', selectedCity)
-        localStorage.setItem('date', selectedDate)
-        localStorage.setItem('language', selectedLanguage)
-        localStorage.setItem('time', time)
-        localStorage.setItem('theatre', cinemaName)
-        navigate('/seatselection');
+        
+        navigate(`/city/${selectedCity}/cinemas/${cinema}/movies/${mid}/timing/${time}/language/${selectedLanguage}/seatselection/${selectedDate}`);
     };
 
     const filteredCinemas = movie.cinema?.filter(cinema => {
-        // Check if the selected city matches any city in the cinema's locations
-        const matchingLocation = cinema.location.some(loc => loc === selectedCity);
-        // Check if the selected language matches any language in the movie's languages
-        const matchingLanguage = movie.language.some(lang => lang.id === selectedLanguage);
+        const matchingLocation = selectedCity
+            ? cinema.cities.some(city => city.id === selectedCity)
+            : true; // If no city is selected, return true
 
-        // Return true if both filters match (or are not set)
-        return (!selectedCity || matchingLocation) &&
-            (!selectedLanguage || matchingLanguage);
+        const matchingLanguage = selectedLanguage
+            ? movie.language.some(lang => lang.id === selectedLanguage)
+            : true; // If no language is selected, return true
+
+        return matchingLocation && matchingLanguage;
     }) || [];
 
     return (
@@ -86,11 +79,11 @@ const Timing = () => {
             <Header />
             <div className="timing-banner">
                 <div className="timing-details">
-                    <div style={{ position: 'absolute', width: '100%', height: '500px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                        <h1 style={{ fontSize: '100px', top: 150, left: '42%', fontFamily: 'fantasy', textTransform: 'uppercase', color: 'rgb(0, 176, 240, 1)' }}>{movie.title}</h1>
+                    <div style={{ position: 'absolute', width: '100%', height: '400px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                        <h1 style={{ fontSize: '100px', fontFamily: 'fantasy', textTransform: 'uppercase', color: 'rgb(0, 176, 240, 1)' }}>{movie.title}</h1>
                         <p>{movie.language && movie.language.map((lang, index) => lang.name).join(', ')}</p>
                     </div>
-                    <img src={movieposter} alt="movie-poster" style={{ position: 'absolute', top: 100, right: 100, opacity: '.2', width: '800px' }} />
+                    <img src={movieposter} alt="movie-poster" style={{ position: 'absolute', right: 100, opacity: '.2', width: '800px' }} />
                     <div className='timing-details-row'>
                         <div className='timing-top-row'>
                             <div className='timing-input'>
@@ -108,14 +101,22 @@ const Timing = () => {
                                             filterSort={(optionA, optionB) =>
                                                 (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                                             }
-                                            options={cities && cities.map((city, index) => ({
-                                                value: city.id,
-                                                label: city.name,
-                                                key: index,
-                                            }))}
+                                            // Flatten and filter for unique city IDs
+                                            options={
+                                                movie.cinema && [...new Map(
+                                                    movie.cinema
+                                                        .filter((cinema) => cinema.cities) // Ensure cinema has cities
+                                                        .flatMap((cinema) =>
+                                                            cinema.cities.map((city) => ({
+                                                                value: city.id,
+                                                                label: city.name
+                                                            }))
+                                                        )
+                                                        .map(city => [city.value, city]) // Create a Map with unique city IDs
+                                                ).values()] // Extract only the unique city objects
+                                            }
                                         />
                                     </div>
-
                                 </div>
                                 <div className={`timing-input-div ${!selectedLanguage && !isFormValid ? 'error-message' : ''}`}>
                                     <div className='time-input-div-2'>
@@ -166,7 +167,7 @@ const Timing = () => {
                                 {filteredCinemas.length > 0
                                     ? filteredCinemas.map((cinema, index) => (
                                         <div className='row time-row' key={index}>
-                                            <div className='col-5 time-col time-col-1'>
+                                            <div className='col-3 time-col time-col-1'>
                                                 <div className='time-col-row'>
                                                     <div style={{ width: '50px' }}>
                                                         <i className="far fa-heart"></i>
@@ -176,13 +177,13 @@ const Timing = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className='col-7 time-col time-col-2'>
+                                            <div className='col-9 time-col time-col-2'>
                                                 <table>
                                                     <tbody>
                                                         <tr>
-                                                            {movie.timing && movie.timing.map((value, tindex) => (
+                                                            {cinema.timing && cinema.timing.map((time, tindex) => (
                                                                 <td style={{ width: '100px' }} key={tindex}>
-                                                                    <button className='btn btn-primary time-btn' onClick={() => handleProceed(value.time, cinema.name)}>{value.time}</button>
+                                                                    <button className='btn btn-primary time-btn' onClick={() => handleProceed(time.id, cinema.id)}>{time.time}</button>
                                                                 </td>
                                                             ))}
                                                         </tr>
@@ -191,33 +192,7 @@ const Timing = () => {
                                             </div>
                                         </div>
                                     ))
-                                    : movie.cinema && movie.cinema.map((cinema, index) => (
-                                        <div className='row time-row' key={index}>
-                                            <div className='col-5 time-col time-col-1'>
-                                                <div className='time-col-row'>
-                                                    <div style={{ width: '50px' }}>
-                                                        <i className="far fa-heart"></i>
-                                                    </div>
-                                                    <div style={{ width: '200px' }}>
-                                                        <span style={{ cursor: 'pointer' }}>{cinema.name}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className='col-7 time-col time-col-2'>
-                                                <table>
-                                                    <tbody>
-                                                        <tr>
-                                                            {movie.timing && movie.timing.map((value, tindex) => (
-                                                                <td style={{ width: '100px' }} key={tindex}>
-                                                                    <button className='btn btn-primary time-btn' onClick={() => handleProceed(value.time, cinema.name)}>{value.time}</button>
-                                                                </td>
-                                                            ))}
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    ))
+                                    : <p>No cinemas found matching the selected criteria</p>
                                 }
                             </div>
                             <img src={bannerAd} alt="banner" />
@@ -230,3 +205,4 @@ const Timing = () => {
 };
 
 export default Timing;
+;

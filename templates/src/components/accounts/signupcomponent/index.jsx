@@ -6,11 +6,13 @@ import { signupFailure, submitForm } from '../../../redux/action/SignupAction';
 import loaderImg from '../../../assets/images/loader.gif';
 
 
+
 export const SignupComponent = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { message, error } = useSelector((state) => state.signup);
     const [loader, setLoader] = useState(false);
+    
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -29,6 +31,7 @@ export const SignupComponent = () => {
             email: event.target.email.value,
             password: event.target.password.value
         };
+        
 
         dispatch(submitForm(formData));
 

@@ -47,9 +47,9 @@ const Home = () => {
                     clearInterval(interval);
                     return 100;
                 }
-                return prev + 1; // Increase by 10 each time
+                return prev + 5; // Increase by 10 each time
             });
-        }, 50); // Update every 500ms
+        }, 600); // Update every 500ms
 
         return () => clearInterval(interval);
     }, []);
@@ -172,7 +172,7 @@ const Home = () => {
                                     filterSort={(optionA, optionB) =>
                                         (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                                     }
-                                    options={city.cinemas && city.cinemas.map((cinema, index) => ({
+                                    options={cinemas && cinemas.map((cinema, index) => ({
                                         value: cinema.name,
                                         label: cinema.name,
                                         key: index,

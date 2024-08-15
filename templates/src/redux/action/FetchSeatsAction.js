@@ -19,10 +19,10 @@ export const fetchSeatsFailure = error => ({
   payload: error,
 });
 
-export const fetchSeats = () => {
+export const fetchSeats = (id) => {
   return dispatch => {
     dispatch(fetchSeatsRequest());
-    axios.get(`${Endpoints.FETCH_SEAT_SELECTION_URL}`)
+    axios.get(`${Endpoints.FETCH_MOVIES_URL}${id}`) 
       .then(response => {
         
         dispatch(fetchSeatsSuccess(response.data));

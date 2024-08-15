@@ -45,3 +45,46 @@
     color: #fff;
     
 }
+
+.ofcanvas{
+    background-color: rgba(2, 20, 54, 0.7)!important;
+    top:90px!important;
+    width: 400px!important;
+}
+.offcanvas-body {
+    padding: 0!important;
+}
+
+
+/* Dark accordion custom styling */
+.custom-card {
+    border: none;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .custom-card .card-header {
+    background-color: #343a40;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .custom-card .card-body {
+    background-color: #212529;
+    color: #f8f9fa;
+  }
+  
+  .accordion-button {
+    color: #f8f9fa;
+  }
+  
+  .accordion-button:hover {
+    text-decoration: none;
+    color: #00aaff;
+  }
+  
+  /* Card Hover Effect */
+  .custom-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+  }
+  

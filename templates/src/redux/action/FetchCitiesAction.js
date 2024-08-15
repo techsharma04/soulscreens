@@ -25,6 +25,7 @@ export const fetchCities = () => {
     dispatch(fetchCitiesRequest());
     axios.get(`${Endpoints.FETCH_CITIES_URL}`)
       .then(response => {
+        
         dispatch(fetchCitiesSuccess(response.data));
       })
       .catch(error => {

@@ -11,6 +11,11 @@ import languageReducer from './FetchLanguageReducer';
 import timingReducer from './FetchTimingReducer';
 import cityReducer from './FetchSingleCityReducer';
 import seatReducer from './FetchSeatsReducer';
+import bookingReducer from './BookingReducer';
+import userReducer from './FetchUsersReducer';
+import createUserReducer from './CreateUsersReducer'
+import profileReducer from './FetchProfileReducer';
+import fetchBookingReducer from './FetchBookingReducer';
 
 const rootReducer = combineReducers({
     signup: signupReducer,
@@ -25,6 +30,11 @@ const rootReducer = combineReducers({
     timing: timingReducer,
     language: languageReducer,
     seat: seatReducer,
+    book: bookingReducer,
+    fetchBook: fetchBookingReducer,
+    user: userReducer,
+    createUser: createUserReducer,
+    profile: profileReducer
 });
 
 export default rootReducer;

@@ -7,14 +7,14 @@ import { fetchMovie } from "../../redux/action/FetchMovieAction";
 import movieposter from '../../assets/images/movie-poster1.gif';
 
 const Movie = ({hide}) => {
-    const { id } = useParams();
+    const { mid } = useParams();
     const dispatch = useDispatch();
     const movie = useSelector(state => state.movie.movie); 
     
 
     useEffect(() => {
-        dispatch(fetchMovie(id));
-    }, [dispatch, id]);
+        dispatch(fetchMovie(mid));
+    }, [dispatch, mid]);
 
     return (
         <div classname="container-fluid">
@@ -39,7 +39,7 @@ const Movie = ({hide}) => {
                                     </div>
                                 </div>
                                 <div style={{ textAlign: 'right', width: '100%' }}>
-                                    <Link to={`/movies/timing/${movie.id}`}><button className="book-btn">Book Tickets</button></Link>
+                                    <Link to={`/movies/${movie.id}/timing/`}><button className="book-btn">Book Tickets</button></Link>
                                 </div>
                             </div> 
                         </div>
