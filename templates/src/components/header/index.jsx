@@ -34,9 +34,9 @@ export const Header = () => {
     return (
         <>
             <div className="container-header">
-                <div className="row header-row">
+                <div className="row header-row ">
                     <div className="col-2 header-col-1">
-                        <img src={logo} alt='' />
+                        <img src={logo} alt='' width={200}/>
                     </div>
                     <div className="col-2 header-col-2">
                         <Link to='/' className='header-menu'><h4>Home</h4></Link>

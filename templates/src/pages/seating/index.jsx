@@ -122,7 +122,7 @@ const Seat = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const email = prompt("Enter your email");
+        const email = prompt("Enter your email where you want to get tickets..");
 
         // Create booking data from form
         const bookingData = {
